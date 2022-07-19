@@ -38,13 +38,13 @@ export const defaults: SimpleOptions = {
     },
   ],
   frames: [],
-  script: `console.log(data)
+  script: `console.log(data);
 var trace = {
   x: data.series[0].fields[0].values.buffer,
   y: data.series[0].fields[1].values.buffer
 };
   
-return {data:[trace],layout:{title:'My Chart'}};`,
-  onclick: `console.log(data)
+return {data:[trace], layout:{title:'My Chart'}};`,
+  onclick: `console.log(data);
 window.updateVariables({query:{'var-project':'test'}, partial: true})`,
 };

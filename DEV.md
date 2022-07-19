@@ -11,11 +11,11 @@
     - `git push origin master --follow-tags`
 
 6. Create new release on Github
-7. Rename `dist` folder to `ae3e-plotly-panel-0.3.3` and zip it (Due to current trouble with signature process, move all image to root of `dist` folder and update `plugin.json` accordingly).
-8. Generate md5 with command `certutil -hashfile ae3e-plotly-panel-0.3.3.zip MD5`
-9. Create `ae3e-plotly-panel-0.3.3.zip.md5` and add following line :
+7. Rename `dist` folder to `grafana-plotly-panel-0.3.3` and zip it (Due to current trouble with signature process, move all image to root of `dist` folder and update `plugin.json` accordingly).
+8. Generate md5 with command `certutil -hashfile grafana-plotly-panel-0.3.3.zip MD5`
+9. Create `grafana-plotly-panel-0.3.3.zip.md5` and add following line :
 ```
-94936b31096de4218a9c31f5ab2ab902  ae3e-plotly-panel-0.3.3.zip
+94936b31096de4218a9c31f5ab2ab902  grafana-plotly-panel-0.3.3.zip
 ```
 10. Attach zip and md5 files to release on Github.
 11. Test plugin with https://grafana-plugins-web-vgmmyppaka-lz.a.run.app/

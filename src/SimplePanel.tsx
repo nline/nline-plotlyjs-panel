@@ -18,7 +18,6 @@ declare global {
 }
 window.Plotly = Plotly;
 //window.LocationSrv = getLocationSrv();
-
 let templateSrv: any = getTemplateSrv();
 
 interface Props extends PanelProps<SimpleOptions> {}
@@ -27,7 +26,6 @@ export class SimplePanel extends PureComponent<Props> {
   render() {
     //Get all variables
     const context = {
-      //interval: templateSrv.getBuiltInIntervalValue(),//dataSource.templateSrv.builtIns.__interval.value,
       __from: this.props.replaceVariables('$__from'),
       __to: this.props.replaceVariables('$__to'),
       __interval: this.props.replaceVariables('$__interval'),
@@ -36,8 +34,6 @@ export class SimplePanel extends PureComponent<Props> {
     templateSrv.getVariables().forEach((elt: any) => {
       context[elt.name] = elt.current.text;
     });
-
-    //const NbValues = data.series[0].rows.length;
 
     let config = this.props.options.config || defaults.config;
     let data = this.props.options.data || defaults.data;
@@ -57,11 +53,10 @@ export class SimplePanel extends PureComponent<Props> {
         }
       }
     } catch (e) {
-      error = e;
-      console.error(e);
-
       //Can't update chart when script is changing if throw error?!?
       //throw new Error('There\'s an error in your script. Check the console to see error\'s details');
+      error = e;
+      console.error(e);
     }
 
     const combineMerge = (target, source, options) => {
@@ -78,28 +73,19 @@ export class SimplePanel extends PureComponent<Props> {
       });
       return destination;
     };
-    //Merge data field and data transformed by script
-    /*let series: any[] = [];
-      if (data2.length && data2.length > 0) {
-        data2.forEach((serie, index) => {
-          let options = this.props.options.data[index];
-          series.push({
-            ...options,
-            ...data2[index],
-          });
-        });
-      }*/
 
     layout = { ...layout, autosize: true, height: this.props.height };
     let display: any;
+
     if (error) {
       let matches = error.stack.match(/anonymous>:.*\)/m);
       let lines = matches ? matches[0].slice(0, -1).split(':') : null;
       display = (
         <div>
-          There&apos;s an error in your script : <br />
+          There&apos;s an error in your script: <br />
           <span style={{ color: '#D00' }}>{error.toString()}</span>{' '}
-          {lines ? '- line ' + (parseInt(lines[1], 10) - 2) + ':' + lines[2] : ''} (Check your console for more details)
+          {lines ? '- line ' + (parseInt(lines[1], 10) - 2) + ':' + lines[2] : ''}
+          (Check your console for more details)
         </div>
       );
     } else {
@@ -112,12 +98,10 @@ export class SimplePanel extends PureComponent<Props> {
           data={parameters.data ? merge(data, parameters.data, { arrayMerge: combineMerge }) : data}
           frames={parameters.frames ? merge(data, parameters.frames, { arrayMerge: combineMerge }) : frames}
           onInitialized={(figure: any, graphDiv: any) => this.setState({ figure: figure, graphDiv: graphDiv })}
-          //layout={ {autosize:true, height:this.props.height, title: this.props.options.title} }
           layout={parameters.layout ? merge(layout, parameters.layout) : layout}
           config={parameters.config ? merge(config, parameters.config) : config}
           useResizeHandler={true}
           onClick={(data) => {
-            //console.log(data)
             var f = new Function('data', 'getLocationSrv', 'getTemplateSrv', this.props.options.onclick);
             f(data, getLocationSrv, getTemplateSrv);
           }}

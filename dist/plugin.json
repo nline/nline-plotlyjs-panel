@@ -1,12 +1,12 @@
 {
   "type": "panel",
   "name": "Plotly panel",
-  "id": "ae3e-plotly-panel",
+  "id": "grafana-plotly-panel",
 
   "info": {
-    "description": "Render chart from any datasource with Plotly javascript library",
+    "description": "Render charts from any datasource with Plotly javascript library",
     "author": {
-      "name": "AE3E"
+      "name": "nLine"
     },
     "keywords": ["Plotly"],
     "logos": {
@@ -14,14 +14,14 @@
       "large": "img/plotly.svg"
     },
     "links": [
-      {"name": "Website", "url": "https://github.com/ae3e/ae3e-plotly-panel"}
+      {"name": "Website", "url": "https://github.com/nline/grafana-plotly-panel"}
     ],
     "screenshots": [
       {"name": "Editor", "path": "img/editor.png"},
       {"name": "Panel", "path": "img/panel.png"}
     ],
-    "version": "0.4.0",
-    "updated": "2021-08-09"
+    "version": "0.0.1",
+    "updated": "2022-03-23"
   },
 
   "dependencies": {
