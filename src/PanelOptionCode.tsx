@@ -1,4 +1,4 @@
-//Code from https://github.com/gapitio/gapit-htmlgraphics-panel
+// Code from https://github.com/gapitio/gapit-htmlgraphics-panel
 import React from 'react';
 import { StandardEditorProps } from '@grafana/data';
 import { CodeEditor } from '@grafana/ui';

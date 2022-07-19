@@ -9,22 +9,24 @@ import _ from 'lodash';
 import Plot from 'react-plotly.js';
 // @ts-ignore
 import Plotly from 'plotly.js/dist/plotly';
-//declare plolty as global
+
+// Declare Plolty as global
 declare global {
   interface Window {
     Plotly: any;
-    //LocationSrv: any;
+    // LocationSrv: any;
   }
 }
+
 window.Plotly = Plotly;
-//window.LocationSrv = getLocationSrv();
+// window.LocationSrv = getLocationSrv();
 let templateSrv: any = getTemplateSrv();
 
 interface Props extends PanelProps<SimpleOptions> {}
 
 export class SimplePanel extends PureComponent<Props> {
   render() {
-    //Get all variables
+    // Get all variables
     const context = {
       __from: this.props.replaceVariables('$__from'),
       __to: this.props.replaceVariables('$__to'),
@@ -53,8 +55,8 @@ export class SimplePanel extends PureComponent<Props> {
         }
       }
     } catch (e) {
-      //Can't update chart when script is changing if throw error?!?
-      //throw new Error('There\'s an error in your script. Check the console to see error\'s details');
+      // Can't update chart when script is changing if throw error?
+      // Add error message
       error = e;
       console.error(e);
     }
@@ -82,10 +84,13 @@ export class SimplePanel extends PureComponent<Props> {
       let lines = matches ? matches[0].slice(0, -1).split(':') : null;
       display = (
         <div>
-          There&apos;s an error in your script: <br />
-          <span style={{ color: '#D00' }}>{error.toString()}</span>{' '}
-          {lines ? '- line ' + (parseInt(lines[1], 10) - 2) + ':' + lines[2] : ''}
-          (Check your console for more details)
+          <p>There&apos;s an error in your script:</p>
+          <p>
+            <code style={{ color: '#D00' }}>
+              {error.toString()} {lines ? '- line ' + (parseInt(lines[1], 10) - 2) + ':' + lines[2] : ''}
+            </code>
+          </p>
+          <p>Check your console for more details</p>
         </div>
       );
     } else {

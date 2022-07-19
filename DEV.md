@@ -3,13 +3,10 @@
 1. Change version in package.json
 2. Build the plugin `npm run build`
 3. Add token to env `set GRAFANA_API_KEY=<my_api_key>` and sign the plugin `npx @grafana/toolkit plugin:sign`
-
 4. Commit changes
-
 5. Create new tag for plugin
     - `git tag -a v0.x.x -m "release v0.x.x"`
     - `git push origin master --follow-tags`
-
 6. Create new release on Github
 7. Rename `dist` folder to `grafana-plotly-panel-0.x.x` and zip it (Due to current trouble with signature process, move all image to root of `dist` folder and update `plugin.json` accordingly).
 8. Generate md5 with command `certutil -hashfile grafana-plotly-panel-0.x.x.zip MD5`
