@@ -1,10 +1,10 @@
 {
   "type": "panel",
-  "name": "Plotly panel",
-  "id": "grafana-plotly-panel",
+  "name": "Plotly",
+  "id": "jacksongoode-grafana-plotly-panel",
 
   "info": {
-    "description": "Render charts from any datasource with Plotly javascript library",
+    "description": "Render charts using Plotly",
     "author": {
       "name": "nLine"
     },
@@ -20,13 +20,13 @@
       {"name": "Editor", "path": "img/editor.png"},
       {"name": "Panel", "path": "img/panel.png"}
     ],
-    "version": "0.0.1",
-    "updated": "2022-03-23"
+    "version": "1.0.0",
+    "updated": "2022-07-19"
   },
 
   "dependencies": {
-    "grafanaDependency": ">=7.5.5",
-    "grafanaVersion": "7.x",
+    "grafanaDependency": ">=8.3.4",
+    "grafanaVersion": "8.x",
     "plugins": []
   }
 }

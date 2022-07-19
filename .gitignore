@@ -5,6 +5,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Modules
 node_modules/
 
 # Runtime data
@@ -27,8 +28,5 @@ e2e-results/
 
 token
 grafana-plotly-panel
-
 grafana-plotly-panel-*.zip
 grafana-plotly-panel-*.zip.md5
-# IntelliJ IDEA
-.idea/

@@ -1,0 +1,42 @@
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+{
+  "manifestVersion": "2.0.0",
+  "signatureType": "private",
+  "signedByOrg": "jacksongoode",
+  "signedByOrgName": "jacksongoode",
+  "rootUrls": [
+    "http://localhost:3000/"
+  ],
+  "plugin": "jacksongoode-grafana-plotly-panel",
+  "version": "1.0.0",
+  "time": 1658263022227,
+  "keyId": "7e4d0c6a708866e7",
+  "files": {
+    "index.html": "2fa2c4168c5bb7b8502989f437e4a1a71e663702b0ec9c01530215c8c026dcaf",
+    "LICENSE": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+    "CHANGELOG.md": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "module.js.map": "f41650eea7c40e32e7542654093c16af4325a6c4666baca677d401546b7973f7",
+    "plugin.json": "106809313ebb654ff28a313cae2189fceb525588ef7fb9590bf8288c48d313a5",
+    "README.md": "340e949d1d2d7bd693c072af2b76029e4a3a068303195f2d4e3a6d080b556bd9",
+    "img/plotly.svg": "d5ec9acca6416f4bc3161de6f203511cc8c02888b0eb6fef35cfa8c7f590c715",
+    "img/editor.png": "158e968f971e6fc129c007867aa9a424d3674431452d3c83d4ff9ae7813d7e43",
+    "img/panel.png": "ebd614120962a84bc6e6808fe6df3dec7ade38c8abb9181d49c229e0ccd2df96",
+    "img/logo.svg": "745fb75066b18dcf4f31f6a5af9adaa85ecc9f89a53d97088c068e28cb1a58e6",
+    "module.js": "b6ffc8699d59db685ebecf732862e466493b734e300aeafc69ba0841a1877591",
+    "dashboards/simple.json": "50cac2ecb72667a81d58ca4282b5482c3687f21dea5672aedbacd632d096d41a"
+  }
+}
+-----BEGIN PGP SIGNATURE-----
+Version: OpenPGP.js v4.10.10
+Comment: https://openpgpjs.org
+
+wrcEARMKAAYFAmLXFe4AIQkQfk0ManCIZucWIQTzOyW2kQdOhGNlcPN+TQxq
+cIhm57BFAgUWNIOiAvXKdiyoRgoG3VF/PJO46Y2TJ40g8VK4vokMnF5vlxVe
+VqvUcU4Gyo04X0iyhp9YEq6Qe6HcYr164gz2wwII+MpynN/UjowwCeHDHWi2
+44SimcAbRD0qW3xnx7e4sTLHquvt2fwGw/X42OOlMmdgJyCTxfSXw48mNMoO
+inF/3P4=
+=wXxe
+-----END PGP SIGNATURE-----
