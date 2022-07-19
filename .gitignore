@@ -30,3 +30,4 @@ token
 grafana-plotly-panel
 grafana-plotly-panel-*.zip
 grafana-plotly-panel-*.zip.md5
+.DS_Store

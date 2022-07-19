@@ -1,7 +1,7 @@
 {
   "type": "panel",
   "name": "Plotly",
-  "id": "jacksongoode-grafana-plotly-panel",
+  "id": "jacksongoode-plotly-panel",
 
   "info": {
     "description": "Render charts using Plotly",
