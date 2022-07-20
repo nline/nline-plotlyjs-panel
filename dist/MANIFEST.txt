@@ -12,15 +12,18 @@ Hash: SHA512
   ],
   "plugin": "jacksongoode-plotly-panel",
   "version": "1.0.0",
-  "time": 1658271141479,
+  "time": 1658302584264,
   "keyId": "7e4d0c6a708866e7",
   "files": {
+    "index.html": "2fa2c4168c5bb7b8502989f437e4a1a71e663702b0ec9c01530215c8c026dcaf",
     "LICENSE": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
     "CHANGELOG.md": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "module.js.LICENSE.txt": "e547e2dd357275cc39d38417c58c25f846c2c6ff2a5d9337b2a5e1f3c3de862a",
     "module.js.map": "7ed5c48a1a96b4490f12dd7e5877df1be4f52de9822cdc6f2528569cdb92c830",
-    "plugin.json": "a8f85f648e2c8ccb396c2b401ee0e3ff1ffe270b5bd646ed975990135368ff06",
-    "README.md": "8fd54479c57696ff06a3afce428161f6d8ab4b27bee7b9c08d21e3186eeadce0",
+    "plugin.json": "e83809095b6ed427ee0227a7498b2fc787f4c40c8a22b905f0c9784d4af9169b",
+    "README.md": "a20133ed6514864e2cfe4c27e01bc4662e7449bc72e92ccee94dec1ea28fc9c0",
+    "img/plotly-small.png": "b1d618caf77d33859827e2c726d152ff1dec1cf208ff3441ebe868edc55e71e4",
+    "img/plotly-large.png": "bcb8279047b2569ceb36d4de3a9c953bfa6c9e969b3289c33ccb82213b3e838f",
     "img/plotly.svg": "d5ec9acca6416f4bc3161de6f203511cc8c02888b0eb6fef35cfa8c7f590c715",
     "img/editor.png": "158e968f971e6fc129c007867aa9a424d3674431452d3c83d4ff9ae7813d7e43",
     "img/panel.png": "ebd614120962a84bc6e6808fe6df3dec7ade38c8abb9181d49c229e0ccd2df96",
@@ -33,10 +36,10 @@ Hash: SHA512
 Version: OpenPGP.js v4.10.10
 Comment: https://openpgpjs.org
 
-wrkEARMKAAYFAmLXNaUAIQkQfk0ManCIZucWIQTzOyW2kQdOhGNlcPN+TQxq
-cIhm5yWKAgkBt+13Q9egVesEnbgzNefyvW/6chvA9S8p0gPBrLtFyRjVODHL
-LY9zoSOlR8cPAkONYUdwI+VAv5o3mDOiTg4THy8CCQGCbRQNZFldCCp9qPbi
-rMJKcVRMjvV0/Jf6M4NXG0qVip3XSKGH58yvwC4MhSMzyahStwi+DeOXztmW
-QGNoPpfEag==
-=9eRd
+wrkEARMKAAYFAmLXsHgAIQkQfk0ManCIZucWIQTzOyW2kQdOhGNlcPN+TQxq
+cIhm5zugAgkBx2ykRnG4bHHwIEGKHrvVsOaqcWkTW+C4cmRiYmRVJkYYgPyU
+Vmp8ApfQmAQ/4kmBUv7BCVMeehf80zO/La2IhJ8CCQFtKHnw2xTHSnd7JXB+
+36EBMSOskaBS5vur8g9/Ft3tvQtTYfoLOsolQs8hTzVRf4/7bKX0tq/isV7e
+UpvHMIe36Q==
+=wqbf
 -----END PGP SIGNATURE-----

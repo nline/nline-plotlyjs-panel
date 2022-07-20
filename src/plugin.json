@@ -10,8 +10,8 @@
     },
     "keywords": ["Plotly"],
     "logos": {
-      "small": "img/plotly.svg",
-      "large": "img/plotly.svg"
+      "small": "img/plotly-small.png",
+      "large": "img/plotly-large.png"
     },
     "links": [
       {"name": "Website", "url": "https://github.com/nline/grafana-plotly-panel"}
