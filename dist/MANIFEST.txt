@@ -10,33 +10,34 @@ Hash: SHA512
   "rootUrls": [
     "http://localhost:3000/"
   ],
-  "plugin": "jacksongoode-plotly-plugin",
-  "version": "1.0.2",
-  "time": 1663120231975,
+  "plugin": "nline-plotlyjs-panel",
+  "version": "1.0.3",
+  "time": 1668665402855,
   "keyId": "7e4d0c6a708866e7",
   "files": {
+    ".DS_Store": "67895b33aca23624bc6fff0916b25268ed33871912e435f7f540a175ed21b907",
     "LICENSE": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
     "CHANGELOG.md": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "module.js.LICENSE.txt": "e547e2dd357275cc39d38417c58c25f846c2c6ff2a5d9337b2a5e1f3c3de862a",
-    "module.js.map": "adabee465de6dd7f2da17d41c4ff5abea034459bb43b2b830ba68af3ae7675b4",
-    "plugin.json": "178a032e9eb0dec774cb2f825039a215af1ef5ef753eba8417232bc891a1bf2e",
-    "README.md": "a3eca235a1b874dd1c81840a19ce1bd4b8d3f7c52e07dc96e59f348f283a95b1",
+    "module.js.map": "d7925d91646858aa7d0f9c4b47979681867f8e995d795b883d65b367a5679e75",
+    "plugin.json": "607584ddea9e948788b93b75b88db7702f75c97e7c4f8076936ffef1ba6702bb",
+    "README.md": "9d25918934dc52aa22f7ef2e20e3187b795926d339489545bfc1470d860f1021",
     "img/plotly-small.png": "b1d618caf77d33859827e2c726d152ff1dec1cf208ff3441ebe868edc55e71e4",
     "img/plotly-large.png": "bcb8279047b2569ceb36d4de3a9c953bfa6c9e969b3289c33ccb82213b3e838f",
     "img/editor.png": "158e968f971e6fc129c007867aa9a424d3674431452d3c83d4ff9ae7813d7e43",
     "img/panel.png": "ebd614120962a84bc6e6808fe6df3dec7ade38c8abb9181d49c229e0ccd2df96",
-    "module.js": "a68322f653bf4d4cfa9a9c672e221006302e75fa663b216e2abdae37fea8202b",
-    "dashboards/simple.json": "c738fb2f7643ffb54d4321f55e6c1da1406247be7a586281859bfd556d54c98d"
+    "module.js": "55c54f742b4bb673fe839d76e5de90f3a02860698045432252a67785e6ebd242",
+    "dashboards/simple.json": "80bd0cfa5de0cd395fbb51929a36d39e88e3dd051f2203052268c30b2c98755c"
   }
 }
 -----BEGIN PGP SIGNATURE-----
 Version: OpenPGP.js v4.10.10
 Comment: https://openpgpjs.org
 
-wrkEARMKAAYFAmMhM2gAIQkQfk0ManCIZucWIQTzOyW2kQdOhGNlcPN+TQxq
-cIhm58GWAgkByG4waz6+viTe/NBXxR3TvCk0VShNpxPP9dv+5tYDNbdoLG3+
-uA257JLM8yHB69BhmVfFckPs1ZiV04+43jbImioCCQH4GJojFwGFx5xajwBC
-VUipyVQ870Czs2rKdbuCOc1GuI25CN4/NkOEYqgQb8+7ZNY814ANrnwpRy6r
-M+1Vom2b0w==
-=1JX2
+wrgEARMKAAYFAmN10DsAIQkQfk0ManCIZucWIQTzOyW2kQdOhGNlcPN+TQxq
+cIhm5+ATAgkBjaGV3wcBSleq3qL8eahl+6TSvQTsYurDyN28E47djc61dm9y
+qA6qSBMw9zf4rKDMc7/UPSEBjJrk09Tfld9+ZdICCPANFjC9r4ltFJj4zf+7
+TyIyEKs1LO/FCN158PVjEZw2BBpAIhRET+rsUwufyDj4xxYnWh8sf5OX46tT
+3yF5+FJb
+=wZJp
 -----END PGP SIGNATURE-----

@@ -1,4 +1,14 @@
-# Publish
+# Development Documentation
+
+Here are some docs to assist with local development and publishing.
+
+## Local development
+
+```sh
+docker run -d -p 3000:3000 -v "$(pwd)"/grafana-plugins:/var/lib/grafana/plugins --name=grafana grafana/grafana
+```
+
+## Publish
 
 1. Change version in package.json
 1. Build the plugin `npm run build`
@@ -8,8 +18,8 @@
     - `git tag -a vx.x.x -m "release vx.x.x"`
     - `git push origin master --follow-tags`
 1. Create new release on Github
-1. Rename `dist` folder to `grafana-plotly-plugin-x.x.x` and zip it (Due to current trouble with signature process, move all image to root of `dist` folder and update `plugin.json` accordingly).
-1. Generate md5 with command `md5 grafana-plotly-plugin-x.x.x.zip > grafana-plotly-plugin-x.x.x.zip.md5`
+1. Rename `dist` folder to `nline-plotlyjs-panel-x.x.x` and zip it (Due to current trouble with signature process, move all image to root of `dist` folder and update `plugin.json` accordingly).
+1. Generate md5 with command `md5 nline-plotlyjs-panel-x.x.x.zip > nline-plotlyjs-panel-x.x.x.zip.md5`
 1. Attach zip and md5 files to release on Github.
 1. Test plugin with <https://github.com/grafana/plugin-validator>
 1. Publish to Grafana plugins

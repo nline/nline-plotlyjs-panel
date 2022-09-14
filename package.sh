@@ -4,8 +4,8 @@ set -e
 
 npm run dev && npx @grafana/toolkit plugin:sign --rootUrls http://localhost:3000 && npm run build 
 tag=$(git describe --abbrev=0)
-cp -r dist jacksongoode-plotly-plugin
-zip -r jacksongoode-plotly-plugin.zip jacksongoode-plotly-plugin
-mv jacksongoode-plotly-plugin.zip jacksongoode-plotly-plugin-${tag}.zip
-md5 jacksongoode-plotly-plugin-${tag}.zip > jacksongoode-plotly-plugin-${tag}.zip.md5
-rm -rf jacksongoode-plotly-plugin
+cp -r dist nline-plotlyjs-panel
+zip -r nline-plotlyjs-panel.zip nline-plotlyjs-panel
+mv nline-plotlyjs-panel.zip nline-plotlyjs-panel-${tag}.zip
+md5 nline-plotlyjs-panel-${tag}.zip > nline-plotlyjs-panel-${tag}.zip.md5
+rm -rf nline-plotlyjs-panel
