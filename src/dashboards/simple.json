@@ -64,7 +64,7 @@
         "timeFrom": null,
         "timeShift": null,
         "title": "Panel Title",
-        "type": "grafana-plotly-panel"
+        "type": "grafana-plotly-plugin"
       }
     ],
     "schemaVersion": 25,
@@ -114,7 +114,7 @@
       ]
     },
     "timezone": "",
-    "title": "grafana-plotly-panel",
+    "title": "grafana-plotly-plugin",
     "uid": "8s0myMRMz",
     "version": 3
   }

@@ -1,7 +1,7 @@
 {
   "type": "panel",
   "name": "Plotly",
-  "id": "jacksongoode-plotly-panel",
+  "id": "jacksongoode-plotly-plugin",
 
   "info": {
     "description": "Render charts using Plotly",
@@ -14,14 +14,14 @@
       "large": "img/plotly-large.png"
     },
     "links": [
-      {"name": "Website", "url": "https://github.com/nline/grafana-plotly-panel"}
+      {"name": "Website", "url": "https://github.com/nline/grafana-plotly-plugin"}
     ],
     "screenshots": [
       {"name": "Editor", "path": "img/editor.png"},
       {"name": "Panel", "path": "img/panel.png"}
     ],
-    "version": "1.0.0",
-    "updated": "2022-07-20"
+    "version": "1.0.2",
+    "updated": "2022-09-14"
   },
 
   "dependencies": {

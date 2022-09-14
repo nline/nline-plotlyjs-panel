@@ -27,7 +27,8 @@ ci/
 e2e-results/
 
 token
-grafana-plotly-panel
-grafana-plotly-panel-*.zip
-grafana-plotly-panel-*.zip.md5
+grafana-plotly-plugin
+grafana-plotly-plugin-*.zip
+grafana-plotly-plugin-*.zip.md5
 .DS_Store
+dist

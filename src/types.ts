@@ -44,8 +44,8 @@ export const defaults: SimpleOptions = {
     },
   ],
   frames: [],
-  script: `console.log(data);
-var trace = {
+  script: `// console.log(data);
+let trace = {
   x: data.series[0].fields[0].values.buffer,
   y: data.series[0].fields[1].values.buffer
 };

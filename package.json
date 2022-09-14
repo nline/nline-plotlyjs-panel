@@ -1,14 +1,14 @@
 {
-  "name": "grafana-plotly-panel",
-  "version": "1.0.0",
-  "description": "Grafana Plotly Panel",
+  "name": "grafana-plotly-plugin",
+  "version": "1.0.2",
+  "description": "Grafana Plotly Plugin",
   "scripts": {
     "build": "grafana-toolkit plugin:build",
     "test": "grafana-toolkit plugin:test",
     "dev": "grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch",
     "sign": "npx @grafana/toolkit plugin:sign",
-    "md5": "certutil -hashfile grafana-plotly-panel-%npm_package_version%.zip MD5"
+    "md5": "md5 grafana-plotly-plugin-%npm_package_version%.zip grafana-plotly-plugin-%npm_package_version%.zip.md5"
   },
   "author": "nLine",
   "license": "Apache-2.0",
@@ -20,10 +20,10 @@
     "@grafana/ui": "8.3.4"
   },
   "dependencies": {
-    "deepmerge": "*",
+    "deepmerge": "4.22.0",
     "plotly.js": "2.13.1",
-    "react-plotly.js": "*",
-    "react-virtualized-auto-sizer": "*"
+    "react-plotly.js": "2.5.1",
+    "react-virtualized-auto-sizer": "1.0.5"
   },
   "resolutions": {
     "@babel/preset-env": "7.5.5"
