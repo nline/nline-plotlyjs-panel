@@ -7,7 +7,7 @@
     "test": "grafana-toolkit plugin:test",
     "dev": "grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch",
-    "sign": "npx @grafana/toolkit plugin:sign",
+    "sign": "npx @grafana/toolkit plugin:sign --rootUrls http://localhost:3000",
     "md5": "md5 nline-plotlyjs-panel-%npm_package_version%.zip nline-plotlyjs-panel-%npm_package_version%.zip.md5"
   },
   "author": "nLine",
@@ -21,9 +21,10 @@
   },
   "dependencies": {
     "deepmerge": "4.2.2",
-    "plotly.js": "2.13.1",
+    "js-yaml": "^4.1.0",
+    "plotly.js": "2.16.3",
     "re-resizable": "^6.9.9",
-    "react-plotly.js": "2.5.1"
+    "react-plotly.js": "2.6.0"
   },
   "resolutions": {
     "@babel/preset-env": "7.5.5"

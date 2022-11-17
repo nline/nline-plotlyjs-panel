@@ -23,7 +23,7 @@ export const defaults: SimpleOptions = {
       t: 5,
       r: 20,
       b: 40,
-      l: 40,
+      l: 20,
     },
     xaxis: {
       type: 'date',
@@ -39,18 +39,34 @@ export const defaults: SimpleOptions = {
   data: [
     {
       type: 'scatter',
+      mode: 'markers',
+      marker: {
+        maxdisplayed: 200
+      },
+      line: { color: 'red', width: 2 },
+      hovertext: "Point from red trace"
+    },
+    {
+      type: 'scatter',
       mode: 'lines',
-      line: { color: 'red', width: 1 },
+      line: { color: 'blue', width: 2 },
+      hovertext: "Point from blue trace"
     },
   ],
   frames: [],
-  script: `// console.log(data);
-let trace = {
-  x: data.series[0].fields[0].values.buffer,
-  y: data.series[0].fields[1].values.buffer
-};
+  script: `let x = data.series[0].fields[0].values.buffer;
+  let y = data.series[0].fields[1].values.buffer;
   
-return {data:[trace]};`,
+  let trace1 = {
+    x: x,
+    y: y
+  };
+  let trace2 = {
+    x: x,
+    y: y.map(x => x * 1.1)
+  };
+  
+  return { data: [trace1, trace2] };`,
   onclick: `// console.log(data);
 // window.updateVariables({query:{'var-project':'test'}, partial: true})`,
 };

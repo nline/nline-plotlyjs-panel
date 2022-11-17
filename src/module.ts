@@ -20,7 +20,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         editor: PanelOptionCode,
         category: ['Data'],
         settings: {
-          language: 'json',
+          language: 'yaml',
           initValue: defaults.data,
         },
         defaultValue: defaults.data,
@@ -33,7 +33,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         editor: PanelOptionCode,
         category: ['Layout'],
         settings: {
-          language: 'json',
+          language: 'yaml',
           initValue: defaults.layout,
         },
         defaultValue: defaults.layout,
@@ -46,7 +46,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         editor: PanelOptionCode,
         category: ['Config'],
         settings: {
-          language: 'json',
+          language: 'yaml',
           initValue: defaults.config,
         },
         defaultValue: defaults.config,

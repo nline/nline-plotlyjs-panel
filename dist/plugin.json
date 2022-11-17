@@ -2,28 +2,37 @@
   "type": "panel",
   "name": "Plotly",
   "id": "nline-plotlyjs-panel",
-
   "info": {
-    "description": "Render charts using Plotly",
+    "description": "Render charts with Plotly.js",
     "author": {
       "name": "nLine"
     },
-    "keywords": ["Plotly"],
+    "keywords": [
+      "Plotly"
+    ],
     "logos": {
       "small": "img/plotly-small.png",
       "large": "img/plotly-large.png"
     },
     "links": [
-      {"name": "Website", "url": "https://github.com/nline/nline-plotlyjs-panel"}
+      {
+        "name": "Website",
+        "url": "https://github.com/nline/nline-plotlyjs-panel"
+      }
     ],
     "screenshots": [
-      {"name": "Editor", "path": "img/editor.png"},
-      {"name": "Panel", "path": "img/panel.png"}
+      {
+        "name": "Editor",
+        "path": "img/editor.png"
+      },
+      {
+        "name": "Panel",
+        "path": "img/panel.png"
+      }
     ],
     "version": "1.0.3",
     "updated": "2022-11-17"
   },
-
   "dependencies": {
     "grafanaDependency": ">=8.3.4",
     "grafanaVersion": "8.x",

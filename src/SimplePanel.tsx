@@ -22,7 +22,7 @@ window.Plotly = Plotly;
 // window.LocationSrv = getLocationSrv();
 let templateSrv: any = getTemplateSrv();
 
-interface Props extends PanelProps<SimpleOptions> {}
+interface Props extends PanelProps<SimpleOptions> { }
 
 export class SimplePanel extends PureComponent<Props> {
   render() {
@@ -51,7 +51,7 @@ export class SimplePanel extends PureComponent<Props> {
         let f = new Function('data, variables', this.props.options.script);
         parameters = f(this.props.data, context);
         if (!parameters) {
-          throw new Error('Script must return values');
+          throw new Error('Script must return values!');
         }
       }
     } catch (e) {

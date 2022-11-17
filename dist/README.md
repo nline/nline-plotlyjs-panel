@@ -1,9 +1,13 @@
 # Plotly Panel
 
+Render charts with [Plotly.js](https://plotly.com/javascript/).
+
 [![Marketplace](https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=marketplace&prefix=v&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22nline-plotlyjs-panel%22%29%5D.version&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins)](https://grafana.com/grafana/plugins/nline-plotlyjs-panel)
 [![Downloads](https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=downloads&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22nline-plotlyjs-panel%22%29%5D.downloads&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins)](https://grafana.com/grafana/plugins/nline-plotlyjs-panel)
 
-Render charts with [Plotly.js](https://plotly.com/javascript/). A maintained fork of [this plugin](https://github.com/ae3e/ae3e-plotly-panel):
+---
+
+A maintained fork of [this plugin](https://github.com/ae3e/ae3e-plotly-panel) with:
 
 - Plotly.js library updated
 - Dependencies updated
@@ -40,7 +44,7 @@ let y = data.series[0].fields[1].values.buffer;
 let series = {
   x: x,
   y: y,
-  name: variables.project // where 'project' is the name of a Grafana variable
+  name: variables.dash_var // where 'dash_var' is the name of a Grafana dashboard variable
 };
 
 return {
