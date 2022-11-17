@@ -41,16 +41,16 @@ export const defaults: SimpleOptions = {
       type: 'scatter',
       mode: 'markers',
       marker: {
-        maxdisplayed: 200
+        maxdisplayed: 200,
       },
       line: { color: 'red', width: 2 },
-      hovertext: "Point from red trace"
+      hovertext: 'Point from red trace',
     },
     {
       type: 'scatter',
       mode: 'lines',
       line: { color: 'blue', width: 2 },
-      hovertext: "Point from blue trace"
+      hovertext: 'Point from blue trace',
     },
   ],
   frames: [],

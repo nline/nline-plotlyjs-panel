@@ -22,7 +22,7 @@ window.Plotly = Plotly;
 // window.LocationSrv = getLocationSrv();
 let templateSrv: any = getTemplateSrv();
 
-interface Props extends PanelProps<SimpleOptions> { }
+interface Props extends PanelProps<SimpleOptions> {}
 
 export class SimplePanel extends PureComponent<Props> {
   render() {

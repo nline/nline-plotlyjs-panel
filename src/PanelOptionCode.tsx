@@ -7,7 +7,7 @@ import './panel.css';
 
 const YAML = require('js-yaml');
 
-interface Props extends StandardEditorProps<string, any, any> { }
+interface Props extends StandardEditorProps<string, any, any> {}
 
 export const PanelOptionCode: React.FC<Props> = ({ value, item, onChange }) => {
   if (typeof value !== 'string') {

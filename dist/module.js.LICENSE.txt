@@ -49,3 +49,5 @@ object-assign
     v0.8.1 (c) Kyle Simpson
     MIT License: http://getify.mit-license.org
 */
+
+/*! js-yaml 4.1.0 https://github.com/nodeca/js-yaml @license MIT */

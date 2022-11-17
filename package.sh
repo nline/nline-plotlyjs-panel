@@ -3,7 +3,7 @@
 set -e
 
 npm run dev && npx @grafana/toolkit plugin:sign --rootUrls http://localhost:3000 && npm run build 
-tag=$(git describe --abbrev=0)
+tag=$(git describe --tags)
 cp -r dist nline-plotlyjs-panel
 zip -r nline-plotlyjs-panel.zip nline-plotlyjs-panel
 mv nline-plotlyjs-panel.zip nline-plotlyjs-panel-${tag}.zip
