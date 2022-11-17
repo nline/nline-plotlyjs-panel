@@ -31,4 +31,5 @@ nline-plotlyjs-panel
 nline-plotlyjs-panel-*.zip
 nline-plotlyjs-panel-*.zip.md5
 .DS_Store
-dist
+dist/
+.trunk/
