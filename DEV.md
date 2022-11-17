@@ -15,7 +15,7 @@ docker run -d -p 3000:3000 -v "$(pwd)"/grafana-plugins:/var/lib/grafana/plugins 
 1. Add token to env `set GRAFANA_API_KEY=<my_api_key>` and sign the plugin `npx @grafana/toolkit plugin:sign`
 1. Commit changes
 1. Create new tag for plugin
-    - `git tag -a vx.x.x -m "release vx.x.x"`
+    - `git tag -a vx.x.x -m "Release vx.x.x"`
     - `git push origin master --follow-tags`
 1. Create new release on Github
 1. Rename `dist` folder to `nline-plotlyjs-panel-x.x.x` and zip it (Due to current trouble with signature process, move all image to root of `dist` folder and update `plugin.json` accordingly).
@@ -23,7 +23,7 @@ docker run -d -p 3000:3000 -v "$(pwd)"/grafana-plugins:/var/lib/grafana/plugins 
 1. Attach zip and md5 files to release on Github.
 1. Test plugin with <https://github.com/grafana/plugin-validator>
 1. Publish to Grafana plugins
-    - Clone grafana-plugin-repository or update my fork of grafana-plugin-repository (Used <https://stefanbauer.me/articles/how-to-keep-your-git-fork-up-to-date>)
+    - Clone grafana-plugin-repository or update a fork of grafana-plugin-repository (Used <https://stefanbauer.me/articles/how-to-keep-your-git-fork-up-to-date>)
         - First time only, created the upstream branch
         `git remote add upstream https://github.com/grafana/grafana-plugin-repository.git`
         - `git fetch upstream`
