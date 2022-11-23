@@ -55,18 +55,18 @@ export const defaults: SimpleOptions = {
   ],
   frames: [],
   script: `let x = data.series[0].fields[0].values.buffer;
-  let y = data.series[0].fields[1].values.buffer;
-  
-  let trace1 = {
-    x: x,
-    y: y
-  };
-  let trace2 = {
-    x: x,
-    y: y.map(x => x * 1.1)
-  };
-  
-  return { data: [trace1, trace2] };`,
+let y = data.series[0].fields[1].values.buffer;
+
+let trace1 = {
+  x: x,
+  y: y
+};
+let trace2 = {
+  x: x,
+  y: y.map(x => x * 1.1)
+};
+
+return { data: [trace1, trace2] };`,
   onclick: `// console.log(data);
 // window.updateVariables({query:{'var-project':'test'}, partial: true})`,
 };

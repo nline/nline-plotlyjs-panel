@@ -1,6 +1,6 @@
 {
   "name": "nline-plotlyjs-panel",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Grafana Plotly Plugin",
   "scripts": {
     "build": "grafana-toolkit plugin:build",
@@ -8,6 +8,7 @@
     "dev": "grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch",
     "sign": "npx @grafana/toolkit plugin:sign --rootUrls http://localhost:3000",
+    "pack": "package.sh",
     "md5": "md5 nline-plotlyjs-panel-%npm_package_version%.zip nline-plotlyjs-panel-%npm_package_version%.zip.md5"
   },
   "author": "nLine",

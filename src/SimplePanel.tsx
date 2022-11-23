@@ -10,7 +10,7 @@ import Plot from 'react-plotly.js';
 // @ts-ignore
 import Plotly from 'plotly.js/dist/plotly';
 
-// Declare Plolty as global
+// Declare Plotly as global
 declare global {
   interface Window {
     Plotly: any;

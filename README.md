@@ -7,7 +7,6 @@ A maintained fork of [ae3e-plotly-panel](https://github.com/ae3e/ae3e-plotly-pan
 - Updated Plotly.js package
 - Updated dependencies
 - YAML support
-- Annotation support added
 - Expandable code editors
 - Depreciated packages/code removed
 - Linting, style standardization, code correction
@@ -22,7 +21,7 @@ Unlike the [natel-plotly-panel](https://github.com/NatelEnergy/grafana-plotly-pa
 
 ## Getting started
 
-The _Data_, _Layout_ and _Config_ fields match the common parameters described in [Plotly's documentation](https://plotly.com/javascript/plotlyjs-function-reference/). They must be in JSON format as described [by this schema](https://raw.githubusercontent.com/plotly/plotly.js/master/dist/plot-schema.json), however they are parsed and interpreted as YAML for ease of use in development. These fields are consumed by Plotly `{ data: [traces], layout: layout, config: config }` and produce a Plotly graph within the panel. They can be collapsed, expanded (by dragging) and used to format the contents (like VSCode).
+The _Data_, _Layout_ and _Config_ fields match the common parameters described in [Plotly's documentation](https://plotly.com/javascript/plotlyjs-function-reference/). They must be in JSON format as described [by this schema](https://raw.githubusercontent.com/plotly/plotly.js/master/dist/plot-schema.json), however they are parsed and interpreted as YAML for ease of use in development. These fields are consumed by Plotly `{  data: [traces], layout: layout, config: config }` and produce a Plotly graph within the panel. They can be collapsed, expanded (by dragging) and used to format the contents (like VSCode).
 
 Data provided by the data source can be transformed via a user-defined script before being delivered to the Plotly chart. This `script` section includes 2 implicit variables that can be used:
 
@@ -36,7 +35,7 @@ The script must return an object with one or more of the following properties:
 - `config`
 - `frames`
 
-__Note:__ The `data` and `frames` properties are arrays of dictionaries/JSON and must begin with a dash (as per YAML specs) or added as an array in the return of the function.
+**Note:** The `data` and `frames` properties are arrays of dictionaries/JSON and must begin with a dash (as per YAML specs) or added as an array in the return of the function.
 
 For example:
 
@@ -47,7 +46,7 @@ let y = data.series[0].fields[1].values.buffer;
 let series = {
   x: x,
   y: y,
-  name: variables.dash_var // where 'dash_var' is the name of a Grafana dashboard variable
+  name: variables.dash_var, // where 'dash_var' is the name of a Grafana dashboard variable
 };
 
 return {
@@ -57,3 +56,10 @@ return {
   },
 };
 ```
+
+## Images
+
+<div float="left" align="center">
+  <img src="src/img/panel.png" width="45%"/>
+  <img src="src/img/editor.png" width="45%"/>
+</div>

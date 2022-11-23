@@ -2,6 +2,9 @@
   "type": "panel",
   "name": "Plotly",
   "id": "nline-plotlyjs-panel",
+  "metrics": true,
+  "annotations": true,
+  "alerting": true,
   "info": {
     "description": "Render charts with Plotly.js",
     "author": {
