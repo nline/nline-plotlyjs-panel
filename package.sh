@@ -4,6 +4,7 @@ set -e
 tag=$(git describe --abbrev=0)
 echo "Packaging $tag"
 
+rm -rf dist
 npm run build && npx @grafana/toolkit plugin:sign
 cp -r dist nline-plotlyjs-panel
 zip -r nline-plotlyjs-panel.zip nline-plotlyjs-panel
