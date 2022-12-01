@@ -4,11 +4,10 @@ import { getTemplateSrv, getLocationSrv } from '@grafana/runtime';
 import { SimpleOptions, defaults } from 'types';
 import merge from 'deepmerge';
 import _ from 'lodash';
+import { saveAs } from 'file-saver';
 
-// tslint:disable
 import Plot from 'react-plotly.js';
-// @ts-ignore
-import Plotly from 'plotly.js/dist/plotly';
+import Plotly, { toImage, Icons, PlotlyHTMLElement } from 'plotly.js/dist/plotly';
 
 // Declare Plotly as global
 declare global {
@@ -42,8 +41,16 @@ export class SimplePanel extends PureComponent<Props> {
     let layout = this.props.options.layout || defaults.layout;
     let frames = this.props.options.frames || defaults.frames;
 
+    let width = this.props.width;
+    let height = this.props.height;
+    let title = this.props.title;
+
+    // Fixes Plotly download issues
+    const handleImageDownload = (gd: PlotlyHTMLElement) =>
+      toImage(gd, { format: 'png', width, height }).then((data) => saveAs(data, title));
+
     let parameters: any;
-    parameters = [this.props.options.data, layout, config];
+    parameters = [data, layout, config];
 
     let error: any;
     try {
@@ -76,9 +83,23 @@ export class SimplePanel extends PureComponent<Props> {
       return destination;
     };
 
+    // Set defaults
     layout = { ...layout, autosize: true, height: this.props.height };
-    let display: any;
+    config = {
+      ...config,
+      modeBarButtonsToAdd: [
+        {
+          name: 'toImageGrafana' + _.uniqueId(),
+          title: 'Download plot as png',
+          icon: Icons.camera,
+          click: handleImageDownload,
+        },
+      ],
+      modeBarButtonsToRemove: ['toImage'],
+      displaylogo: false,
+    };
 
+    let display: any;
     if (error) {
       let matches = error.stack.match(/anonymous>:.*\)/m);
       let lines = matches ? matches[0].slice(0, -1).split(':') : null;

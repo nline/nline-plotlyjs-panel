@@ -1,6 +1,6 @@
 {
   "name": "nline-plotlyjs-panel",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Grafana Plotly Plugin",
   "scripts": {
     "build": "grafana-toolkit plugin:build",
@@ -8,7 +8,7 @@
     "dev": "grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch",
     "sign": "npx @grafana/toolkit plugin:sign --rootUrls http://localhost:3000",
-    "pack": "package.sh",
+    "pack": "./package.sh",
     "md5": "md5 nline-plotlyjs-panel-%npm_package_version%.zip nline-plotlyjs-panel-%npm_package_version%.zip.md5"
   },
   "author": "nLine",
@@ -22,7 +22,8 @@
   },
   "dependencies": {
     "deepmerge": "4.2.2",
-    "js-yaml": "^4.1.0",
+    "file-saver": "2.0.5",
+    "js-yaml": "4.1.0",
     "plotly.js": "2.16.3",
     "re-resizable": "^6.9.9",
     "react-plotly.js": "2.6.0"
