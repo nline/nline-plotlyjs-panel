@@ -5,9 +5,10 @@ Render charts with [Plotly.js](https://plotly.com/javascript/).
 A maintained fork of [ae3e-plotly-panel](https://github.com/ae3e/ae3e-plotly-panel) with:
 
 - Updated Plotly.js package
-- Updated dependencies
-- YAML support
+- Ability to export plot as image (fixed)
 - Expandable code editors
+- YAML support
+- Updated dependencies
 - Depreciated packages/code removed
 - Linting, style standardization, code correction
 - Better documentation
