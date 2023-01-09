@@ -9,14 +9,11 @@ export interface SimpleOptions {
 }
 
 export type EditorCodeType = string | undefined;
-export type EditorLanguageType = 'javascript' | 'html' | 'json' | undefined;
+export type EditorLanguageType = 'javascript' | 'html' | 'json' | 'yaml' | undefined;
 
 export const defaults: SimpleOptions = {
-  title: 'title',
+  title: 'Plotly panel',
   layout: {
-    font: {
-      color: 'darkgrey',
-    },
     paper_bgcolor: 'rgba(0,0,0,0)',
     plot_bgcolor: 'rgba(0,0,0,0)',
     margin: {
@@ -24,9 +21,6 @@ export const defaults: SimpleOptions = {
       r: 20,
       b: 40,
       l: 20,
-    },
-    xaxis: {
-      type: 'date',
     },
     yaxis: {
       automargin: true,
@@ -40,16 +34,13 @@ export const defaults: SimpleOptions = {
     {
       type: 'scatter',
       mode: 'markers',
-      marker: {
-        maxdisplayed: 200,
-      },
-      line: { color: 'red', width: 2 },
+      line: { color: 'red' },
       hovertext: 'Point from red trace',
     },
     {
       type: 'scatter',
       mode: 'lines',
-      line: { color: 'blue', width: 2 },
+      line: { color: 'blue' },
       hovertext: 'Point from blue trace',
     },
   ],

@@ -29,7 +29,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         id: 'layout',
         path: 'layout',
         name: 'Layout',
-        description: 'Layout object for the Plotly chart ',
+        description: 'Layout object for the Plotly chart',
         editor: PanelOptionCode,
         category: ['Layout'],
         settings: {
@@ -58,8 +58,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         description: `
             Script executed whenever new data is available.
             Must return an object with one or more of the following properties:
-            data, layout, config as
-            f(data, variables){...your code...}`,
+            data, layout, config as f(data, variables){...your code...}`,
         editor: PanelOptionCode,
         category: ['Script'],
         settings: {

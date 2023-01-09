@@ -33,3 +33,4 @@ nline-plotlyjs-panel-*.zip.md5
 .DS_Store
 dist/
 .trunk/
+keys.env

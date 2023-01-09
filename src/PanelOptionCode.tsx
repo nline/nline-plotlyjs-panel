@@ -31,7 +31,11 @@ export const PanelOptionCode: React.FC<Props> = ({ value, item, onChange }) => {
         value={value === 'null' ? YAML.dump(item.settings?.initValue, null, 2) : value}
         onBlur={(code) => {
           if (item.settings?.language === 'yaml' && code) {
-            code = YAML.load(code);
+            try {
+              code = YAML.load(code);
+            } catch (e: any) {
+              console.error(e.message);
+            }
           }
           onChange(code);
         }}
