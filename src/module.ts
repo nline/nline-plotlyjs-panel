@@ -9,9 +9,16 @@ import { SimplePanel } from './SimplePanel';
 import { PanelOptionCode } from './PanelOptionCode';
 
 export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
+
   .setDataSupport({ annotations: true })
   .setPanelOptions((builder) => {
     return builder
+      .addBooleanSwitch({
+        description: 'Whether to edit in YAML or JSON',
+        path: 'yaml_mode',
+        name: 'Plotly mode',
+        defaultValue: true,
+      })
       .addCustomEditor({
         id: 'data',
         path: 'data',
@@ -20,7 +27,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         editor: PanelOptionCode,
         category: ['Data'],
         settings: {
-          language: 'yaml',
+          language: defaults.yaml_mode ? 'yaml' : 'json',
           initValue: defaults.data,
         },
         defaultValue: defaults.data,
@@ -33,7 +40,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         editor: PanelOptionCode,
         category: ['Layout'],
         settings: {
-          language: 'yaml',
+          language: defaults.yaml_mode ? 'yaml' : 'json',
           initValue: defaults.layout,
         },
         defaultValue: defaults.layout,
@@ -46,7 +53,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         editor: PanelOptionCode,
         category: ['Config'],
         settings: {
-          language: 'yaml',
+          language: defaults.yaml_mode ? 'yaml' : 'json',
           initValue: defaults.config,
         },
         defaultValue: defaults.config,

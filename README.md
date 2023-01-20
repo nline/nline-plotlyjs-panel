@@ -47,7 +47,9 @@ let y = data.series[0].fields[1].values.buffer;
 let series = {
   x: x,
   y: y,
-  name: variables.dash_var, // where 'dash_var' is the name of a Grafana dashboard variable
+  name: variables.dash_var,
+  // where 'dash_var' is the name of
+  // a Grafana dashboard variable
 };
 
 return {
@@ -58,9 +60,6 @@ return {
 };
 ```
 
-## Images
+## Screenshots
 
-<div float="left" align="center">
-  <img src="src/img/panel.png" width="45%"/>
-  <img src="src/img/editor.png" width="45%"/>
-</div>
+For screenshots see the `src/img` folder.

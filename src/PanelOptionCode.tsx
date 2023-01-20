@@ -7,11 +7,14 @@ import './panel.css';
 
 const YAML = require('js-yaml');
 
-interface Props extends StandardEditorProps<string, any, any> {}
+interface Props extends StandardEditorProps<string, any, any, any> {}
 
-export const PanelOptionCode: React.FC<Props> = ({ value, item, onChange }) => {
+export const PanelOptionCode: React.FC<Props> = ({ value, item, onChange, context }) => {
+  let yaml = context.options.yaml_mode;
+  item.settings.language = yaml ? 'yaml' : 'json';
+
   if (typeof value !== 'string') {
-    value = YAML.dump(value, null, 2);
+    value = yaml ? YAML.dump(value, null, 2) : JSON.stringify(value, null, 2);
   }
 
   return (
@@ -28,11 +31,17 @@ export const PanelOptionCode: React.FC<Props> = ({ value, item, onChange }) => {
       <CodeEditor
         language={item.settings?.language}
         showLineNumbers={item.settings?.language === 'javascript' ? true : false}
-        value={value === 'null' ? YAML.dump(item.settings?.initValue, null, 2) : value}
+        value={
+          value === 'null'
+            ? yaml
+              ? YAML.dump(item.settings?.initValue, null, 2)
+              : JSON.stringify(item.settings?.initValue, null, 2)
+            : value
+        }
         onBlur={(code) => {
-          if (item.settings?.language === 'yaml' && code) {
+          if ((item.settings?.language === 'yaml' || item.settings?.language === 'json') && code) {
             try {
-              code = YAML.load(code);
+              code = yaml ? YAML.load(code) : JSON.parse(code);
             } catch (e: any) {
               console.error(e.message);
             }
