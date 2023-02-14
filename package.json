@@ -1,13 +1,13 @@
 {
   "name": "nline-plotlyjs-panel",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Grafana Plotly Plugin",
   "scripts": {
     "build": "grafana-toolkit plugin:build",
     "test": "grafana-toolkit plugin:test",
     "dev": "grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch",
-    "sign": "export $(xargs <keys.env) && npx @grafana/toolkit plugin:sign --rootUrls http://localhost:3000",
+    "sign": "export $(xargs <keys.env) && npx @grafana/toolkit plugin:sign --rootUrls $URL",
     "pack": "./package.sh",
     "md5": "md5 nline-plotlyjs-panel-%npm_package_version%.zip nline-plotlyjs-panel-%npm_package_version%.zip.md5",
     "docker": "docker run -d -p 3000:3000 -v \"$(pwd)\":/var/lib/grafana/plugins --name=grafana grafana/grafana:8.3.4"

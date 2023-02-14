@@ -11,9 +11,9 @@ interface Props extends StandardEditorProps<string, any, any, any> {}
 
 export const PanelOptionCode: React.FC<Props> = ({ value, item, onChange, context }) => {
   let yaml = context.options.yaml_mode;
-  item.settings.language = yaml ? 'yaml' : 'json';
 
   if (typeof value !== 'string') {
+    item.settings.language = yaml ? 'yaml' : 'json';
     value = yaml ? YAML.dump(value, null, 2) : JSON.stringify(value, null, 2);
   }
 
