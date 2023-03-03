@@ -50,20 +50,19 @@ export class SimplePanel extends PureComponent<Props> {
       toImage(gd, { format: 'png', width, height }).then((data) => saveAs(data, title));
 
     let parameters: any;
-    parameters = [data, layout, config];
+    parameters = { data: data, layout: layout, config: config };
 
     let error: any;
     try {
       if (this.props.options.script !== '' && this.props.data.state !== 'Error') {
-        let f = new Function('data, variables', this.props.options.script);
-        parameters = f(this.props.data, context);
+        let f = new Function('data, variables, parameters', this.props.options.script);
+        parameters = f(this.props.data, context, parameters);
         if (!parameters) {
           throw new Error('Script must return values!');
         }
       }
     } catch (e) {
-      // Can't update chart when script is changing if throw error?
-      // Add error message
+      // Can't update chart when script is changing
       error = e;
       console.error(e);
     }

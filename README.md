@@ -28,6 +28,7 @@ Data provided by the data source can be transformed via a user-defined script be
 
 - `data`: Data returned by the datasource query. See the example below for the object's schema.
 - `variables`: Object that contains [Grafana's dashboard variables](https://grafana.com/docs/grafana/latest/variables/) available in the current dashboard (user variables as well as a few global variables: `__from`, `__to`, `__interval` and `__interval_ms`).
+- `parameters`: The panel's data, layout, and config objects. This may be helpful in the case of applying static properties from the data panel (as one item rather than an array) across many traces via something like a merge.
 
 The script must return an object with one or more of the following properties:
 
