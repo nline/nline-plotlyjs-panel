@@ -7,9 +7,7 @@
     "author": {
       "name": "nLine"
     },
-    "keywords": [
-      "Plotly"
-    ],
+    "keywords": ["Plotly"],
     "logos": {
       "small": "img/plotly-small.png",
       "large": "img/plotly-large.png"
@@ -34,8 +32,8 @@
     "updated": "%TODAY%"
   },
   "dependencies": {
-    "grafanaDependency": ">=8.3.4",
-    "grafanaVersion": "8.x",
+    "grafanaDependency": ">=9",
+    "grafanaVersion": "9.x",
     "plugins": []
   }
 }

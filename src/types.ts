@@ -3,7 +3,7 @@ export interface SimpleOptions {
   title: string;
   layout: object;
   config: object;
-  data: any[];
+  data: any;
   frames: any[];
   script: string;
   onclick: string;

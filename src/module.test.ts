@@ -1,5 +1,5 @@
 // Just a stub test
-describe('Placeholder Test', () => {
+describe('Placeholder test', () => {
   it('Return true', () => {
     expect(true).toBeTruthy();
   });

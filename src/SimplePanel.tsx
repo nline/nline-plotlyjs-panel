@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
 import { PanelProps } from '@grafana/data';
-import { getTemplateSrv, getLocationSrv } from '@grafana/runtime';
+import { getTemplateSrv, locationService } from '@grafana/runtime';
 import { SimpleOptions, defaults } from 'types';
 import merge from 'deepmerge';
 import _ from 'lodash';
 import { saveAs } from 'file-saver';
 
 import Plot from 'react-plotly.js';
-import Plotly, { toImage, Icons, PlotlyHTMLElement } from 'plotly.js/dist/plotly';
+import Plotly, { toImage, Icons, PlotlyHTMLElement } from 'plotly.js-dist-min';
 
 // Declare Plotly as global
 declare global {
@@ -47,7 +47,7 @@ export class SimplePanel extends PureComponent<Props> {
 
     // Fixes Plotly download issues
     const handleImageDownload = (gd: PlotlyHTMLElement) =>
-      toImage(gd, { format: 'png', width, height }).then((data) => saveAs(data, title));
+      toImage(gd, { format: 'png', width, height }).then((data: any) => saveAs(data, title));
 
     let parameters: any;
     parameters = { data: data, layout: layout, config: config };
@@ -57,7 +57,7 @@ export class SimplePanel extends PureComponent<Props> {
       if (this.props.options.script !== '' && this.props.data.state !== 'Error') {
         let f = new Function('data, variables, parameters', this.props.options.script);
         parameters = f(this.props.data, context, parameters);
-        if (!parameters) {
+        if (!parameters || typeof parameters === 'undefined') {
           throw new Error('Script must return values!');
         }
       }
@@ -67,10 +67,10 @@ export class SimplePanel extends PureComponent<Props> {
       console.error(e);
     }
 
-    const combineMerge = (target, source, options) => {
+    const combineMerge = (target: any, source: any, options: any) => {
       const destination = target.slice();
 
-      source.forEach((item, index) => {
+      source.forEach((item: any, index: any) => {
         if (typeof destination[index] === 'undefined') {
           destination[index] = options.cloneUnlessOtherwiseSpecified(item, options);
         } else if (options.isMergeableObject(item)) {
@@ -97,6 +97,13 @@ export class SimplePanel extends PureComponent<Props> {
       modeBarButtonsToRemove: ['toImage'],
       displaylogo: false,
     };
+
+    // Convert data to array if not an array
+    if (data.constructor === Object) {
+      if (parameters.data.constructor === Array) {
+        data = Array(parameters.data.length).fill(data);
+      }
+    }
 
     let display: any;
     if (error) {
@@ -127,8 +134,8 @@ export class SimplePanel extends PureComponent<Props> {
           config={parameters.config ? merge(config, parameters.config) : config}
           useResizeHandler={true}
           onClick={(data) => {
-            let f = new Function('data', 'getLocationSrv', 'getTemplateSrv', this.props.options.onclick);
-            f(data, getLocationSrv, getTemplateSrv);
+            let f = new Function('data', 'locationService', 'getTemplateSrv', this.props.options.onclick);
+            f(data, locationService, getTemplateSrv);
           }}
         ></Plot>
       );
