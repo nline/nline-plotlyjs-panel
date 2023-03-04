@@ -7,7 +7,7 @@ echo "Packaging $tag"
 export $(xargs <keys.env) 
 
 rm -rf dist
-npm run build && npx @grafana/toolkit plugin:sign
+yarn build && npx @grafana/sign-plugin@latest
 
 cp -r dist nline-plotlyjs-panel
 zip -r nline-plotlyjs-panel.zip nline-plotlyjs-panel
