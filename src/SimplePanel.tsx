@@ -7,7 +7,7 @@ import _ from 'lodash';
 import { saveAs } from 'file-saver';
 
 import Plotly, { toImage, Icons, PlotlyHTMLElement } from 'plotly.js-dist-min';
-import createPlotlyComponent from "react-plotly.js/factory";
+import createPlotlyComponent from 'react-plotly.js/factory';
 const Plot = createPlotlyComponent(Plotly);
 // import Plot from 'react-plotly.js';
 
