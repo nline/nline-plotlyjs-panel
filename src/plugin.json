@@ -32,7 +32,7 @@
     "updated": "%TODAY%"
   },
   "dependencies": {
-    "grafanaDependency": ">=9",
+    "grafanaDependency": ">=9.0.0",
     "grafanaVersion": "9.x",
     "plugins": []
   }
