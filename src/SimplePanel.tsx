@@ -6,14 +6,15 @@ import merge from 'deepmerge';
 import _ from 'lodash';
 import { saveAs } from 'file-saver';
 
-import Plot from 'react-plotly.js';
 import Plotly, { toImage, Icons, PlotlyHTMLElement } from 'plotly.js-dist-min';
+import createPlotlyComponent from "react-plotly.js/factory";
+const Plot = createPlotlyComponent(Plotly);
+// import Plot from 'react-plotly.js';
 
 // Declare Plotly as global
 declare global {
   interface Window {
     Plotly: any;
-    // LocationSrv: any;
   }
 }
 

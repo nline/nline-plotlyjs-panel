@@ -13,7 +13,7 @@
     "md5": "md5 nline-plotlyjs-panel-%npm_package_version%.zip nline-plotlyjs-panel-%npm_package_version%.zip.md5",
     "package": "./package.sh",
     "server": "docker-compose up --build",
-    "sign": "npx --yes @grafana/sign-plugin@latest",
+    "sign": "export $(xargs <keys.env) && npx --yes @grafana/sign-plugin@latest",
     "test:ci": "jest --passWithNoTests --maxWorkers 4",
     "test": "jest --watch --onlyChanged",
     "typecheck": "tsc --noEmit",
@@ -68,18 +68,17 @@
     "webpack-livereload-plugin": "^3.0.2"
   },
   "dependencies": {
-    "@grafana/data": "^9",
-    "@grafana/runtime": "^9",
-    "@grafana/ui": "^9",
+    "@grafana/data": "^9.0.0",
+    "@grafana/runtime": "^9.0.0",
+    "@grafana/ui": "^9.0.0",
     "@types/file-saver": "^2.0.5",
     "deepmerge": "^4.2.2",
     "file-saver": "^2.0.5",
     "js-yaml": "^4.1.0",
-    "plotly.js": "^2.18.2",
     "plotly.js-dist-min": "^2.18.2",
     "re-resizable": "^6.9.9",
-    "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-plotly.js": "^2.6.0"
+    "react-plotly.js": "^2.6.0",
+    "react": "17.0.2"
   }
 }
