@@ -17,7 +17,7 @@
     "test:ci": "jest --passWithNoTests --maxWorkers 4",
     "test": "jest --watch --onlyChanged",
     "typecheck": "tsc --noEmit",
-    "validate": "docker run --pull=always grafana/plugin-validator-cli $URL $ZIP"
+    "validate": "tag=$(git describe --abbrev=0) && npx -y @grafana/plugin-validator@latest -sourceCodeUri https://github.com/nline/nline-plotlyjs-panel/tree/$tag https://github.com/nline/nline-plotlyjs-panel/releases/download/$tag/nline-plotlyjs-panel-$tag.zip"
   },
   "author": "nLine",
   "license": "Apache-2.0",
