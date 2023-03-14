@@ -15,9 +15,15 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
     return builder
       .addBooleanSwitch({
         description: 'Whether to edit in YAML or JSON',
-        path: 'yaml_mode',
+        path: 'yamlMode',
         name: 'Plotly mode',
         defaultValue: true,
+      })
+      .addNumberInput({
+        description: 'Factor of exported image resolution',
+        path: 'resScale',
+        name: 'Image resolution scale',
+        defaultValue: 1,
       })
       .addCustomEditor({
         id: 'data',
@@ -27,7 +33,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         editor: PanelOptionCode,
         category: ['Data'],
         settings: {
-          language: defaults.yaml_mode ? 'yaml' : 'json',
+          language: defaults.yamlMode ? 'yaml' : 'json',
           initValue: defaults.data,
         },
         defaultValue: defaults.data,
@@ -40,7 +46,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         editor: PanelOptionCode,
         category: ['Layout'],
         settings: {
-          language: defaults.yaml_mode ? 'yaml' : 'json',
+          language: defaults.yamlMode ? 'yaml' : 'json',
           initValue: defaults.layout,
         },
         defaultValue: defaults.layout,
@@ -53,7 +59,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         editor: PanelOptionCode,
         category: ['Config'],
         settings: {
-          language: defaults.yaml_mode ? 'yaml' : 'json',
+          language: defaults.yamlMode ? 'yaml' : 'json',
           initValue: defaults.config,
         },
         defaultValue: defaults.config,

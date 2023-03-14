@@ -10,7 +10,7 @@ const YAML = require('js-yaml');
 interface Props extends StandardEditorProps<string, any, any, any> {}
 
 export const PanelOptionCode: React.FC<Props> = ({ value, item, onChange, context }) => {
-  let yaml = context.options.yaml_mode;
+  let yaml = context.options.yamlMode;
 
   if (typeof value !== 'string') {
     item.settings.language = yaml ? 'yaml' : 'json';

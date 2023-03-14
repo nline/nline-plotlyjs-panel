@@ -16,6 +16,9 @@ import { Configuration } from 'webpack';
 import { getPackageJson, getPluginId, hasReadme, getEntries } from './utils';
 import { SOURCE_DIR, DIST_DIR } from './constants';
 
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin
+
 const config = async (env): Promise<Configuration> => ({
   cache: {
     type: 'filesystem',
@@ -136,6 +139,7 @@ const config = async (env): Promise<Configuration> => ({
   },
 
   plugins: [
+    new BundleAnalyzerPlugin(),
     new CopyWebpackPlugin({
       patterns: [
         // If src/README.md exists use it; otherwise the root README

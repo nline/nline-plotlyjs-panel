@@ -9,7 +9,6 @@ import { saveAs } from 'file-saver';
 import Plotly, { toImage, Icons, PlotlyHTMLElement } from 'plotly.js-dist-min';
 import createPlotlyComponent from 'react-plotly.js/factory';
 const Plot = createPlotlyComponent(Plotly);
-// import Plot from 'react-plotly.js';
 
 // Declare Plotly as global
 declare global {
@@ -42,9 +41,11 @@ export class SimplePanel extends PureComponent<Props> {
     let layout = this.props.options.layout || defaults.layout;
     let frames = this.props.options.frames || defaults.frames;
 
-    let width = this.props.width;
-    let height = this.props.height;
-    let title = this.props.title;
+    // Multiply by 2 for higher resolution image
+    const resScale = this.props.options.resScale;
+    const width = this.props.width * resScale;
+    const height = this.props.height * resScale;
+    const title = this.props.title;
 
     // Fixes Plotly download issues
     const handleImageDownload = (gd: PlotlyHTMLElement) =>
@@ -90,7 +91,7 @@ export class SimplePanel extends PureComponent<Props> {
       modeBarButtonsToAdd: [
         {
           name: 'toImageGrafana' + _.uniqueId(),
-          title: 'Download plot as png',
+          title: 'Export plot as an image',
           icon: Icons.camera,
           click: handleImageDownload,
         },
