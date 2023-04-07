@@ -111,17 +111,25 @@ export class SimplePanel extends PureComponent<Props> {
     if (error) {
       let matches = error.stack.match(/anonymous>:.*\)/m);
       let lines = matches ? matches[0].slice(0, -1).split(':') : null;
-      display = (
-        <div>
-          <p>There&apos;s an error in your script:</p>
-          <p>
-            <code style={{ color: '#D00' }}>
-              {error.toString()} {lines ? '- line ' + (parseInt(lines[1], 10) - 2) + ':' + lines[2] : ''}
-            </code>
-          </p>
-          <p>Check your console for more details</p>
-        </div>
-      );
+      if (data.series.length === 0) {
+        display = (
+          <div>
+            <h3>No data in selected data source or range</h3>
+          </div>
+        );
+      } else {
+        display = (
+          <div>
+            <h3>There&apos;s an error in your script:</h3>
+            <p>
+              <code style={{ color: '#D00' }}>
+                {error.toString()} {lines ? '- line ' + (parseInt(lines[1], 10) - 2) + ':' + lines[2] : ''}
+              </code>
+            </p>
+            <p>Check your console for more details</p>
+          </div>
+        );
+      }
     } else {
       display = (
         <Plot

@@ -2,11 +2,11 @@ version: '3.0'
 
 services:
   grafana:
-    container_name: 'nline-plotlyjs-panel'
+    container_name: nline-plotlyjs-panel
     build:
       context: ./.config
       args:
-        grafana_version: ${GRAFANA_VERSION:-9.2.5}
+        grafana_version: ${GRAFANA_VERSION:-latest}
     ports:
       - 3000:3000/tcp
     volumes:

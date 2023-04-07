@@ -21,11 +21,11 @@
     "screenshots": [
       {
         "name": "Editor",
-        "path": "img/editor.png"
+        "path": "screenshots/editor.png"
       },
       {
         "name": "Panel",
-        "path": "img/panel.png"
+        "path": "screenshots/panel.png"
       }
     ],
     "version": "%VERSION%",
