@@ -111,16 +111,16 @@ export class SimplePanel extends PureComponent<Props> {
     if (error) {
       let matches = error.stack.match(/anonymous>:.*\)/m);
       let lines = matches ? matches[0].slice(0, -1).split(':') : null;
-      if (data.series.length === 0) {
+      if ('series' in data && data.series.length === 0) {
         display = (
-          <div>
-            <h3>No data in selected data source or range</h3>
+          <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center' }}>
+            <h4 style={{ margin: 'auto 1em' }}>No data in selected range or source</h4>
           </div>
         );
       } else {
         display = (
           <div>
-            <h3>There&apos;s an error in your script:</h3>
+            <p>There&apos;s an error in your script:</p>
             <p>
               <code style={{ color: '#D00' }}>
                 {error.toString()} {lines ? '- line ' + (parseInt(lines[1], 10) - 2) + ':' + lines[2] : ''}
@@ -133,10 +133,7 @@ export class SimplePanel extends PureComponent<Props> {
     } else {
       display = (
         <Plot
-          style={{
-            width: '100%',
-            height: '100%',
-          }}
+          style={{ width: '100%', height: '100%' }}
           data={parameters.data ? merge(data, parameters.data, { arrayMerge: combineMerge }) : data}
           frames={parameters.frames ? merge(data, parameters.frames, { arrayMerge: combineMerge }) : frames}
           onInitialized={(figure: any, graphDiv: any) => this.setState({ figure: figure, graphDiv: graphDiv })}
