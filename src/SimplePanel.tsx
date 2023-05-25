@@ -32,8 +32,8 @@ export class SimplePanel extends PureComponent<Props> {
       __interval: this.props.replaceVariables('$__interval'),
       __interval_ms: this.props.replaceVariables('$__interval_ms'),
     } as any;
-    templateSrv.getVariables().forEach((elt: any) => {
-      context[elt.name] = elt.current.text;
+    templateSrv.getVariables().forEach((v: any) => {
+      context[v.name] = v.current.text;
     });
 
     let config = this.props.options.config || defaults.config;
@@ -43,20 +43,18 @@ export class SimplePanel extends PureComponent<Props> {
 
     // Multiply by 2 for higher resolution image
     const resScale = this.props.options.resScale;
-    const width = this.props.width * resScale;
-    const height = this.props.height * resScale;
-
-    const getFilename = (el: any) => {
-      let panelContent = el.closest('div[class*="-panel-content"]');
-      let siblingAbove = panelContent.previousElementSibling;
-      let h6 = siblingAbove.querySelector('h6');
-      return h6.textContent.trim();
-    };
-    const title = getFilename(this) || this.props.title;
+    const width = this.props.width;
+    const height = this.props.height;
+    let title = this.props.title;
+    if (/\${\w+}/.test(title)) {
+      title = title.replace(/\${(\w+)}/g, (match, v) => {
+        return context[v] || match;
+      });
+    }
 
     // Fixes Plotly download issues
     const handleImageDownload = (gd: PlotlyHTMLElement) =>
-      toImage(gd, { format: 'png', width, height }).then((data: any) => saveAs(data, title));
+      toImage(gd, { format: 'png', width, height, scale: resScale }).then((data: any) => saveAs(data, title));
 
     let parameters: any;
     parameters = { data: data, layout: layout, config: config };
