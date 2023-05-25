@@ -45,7 +45,14 @@ export class SimplePanel extends PureComponent<Props> {
     const resScale = this.props.options.resScale;
     const width = this.props.width * resScale;
     const height = this.props.height * resScale;
-    const title = this.props.title;
+
+    const getFilename = (el: any) => {
+      let panelContent = el.closest('div[class*="-panel-content"]');
+      let siblingAbove = panelContent.previousElementSibling;
+      let h6 = siblingAbove.querySelector('h6');
+      return h6.textContent.trim();
+    };
+    const title = getFilename(this) || this.props.title;
 
     // Fixes Plotly download issues
     const handleImageDownload = (gd: PlotlyHTMLElement) =>
