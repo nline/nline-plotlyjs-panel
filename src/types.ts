@@ -1,5 +1,7 @@
 export interface SimpleOptions {
   yamlMode: boolean;
+  exportWidth: number | null;
+  exportHeight: number | null;
   resScale: number;
   title: string;
   layout: object;
@@ -15,6 +17,8 @@ export type EditorLanguageType = 'javascript' | 'html' | 'json' | 'yaml' | undef
 
 export const defaults: SimpleOptions = {
   yamlMode: true,
+  exportWidth: null,
+  exportHeight: null,
   resScale: 1,
   title: 'Plotly panel',
   layout: {

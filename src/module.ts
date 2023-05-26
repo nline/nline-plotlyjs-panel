@@ -20,9 +20,19 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         defaultValue: true,
       })
       .addNumberInput({
+        description: 'Defined width of exported image',
+        path: 'exportWidth',
+        name: 'Exported image width',
+      })
+      .addNumberInput({
+        description: 'Defined height of exported image',
+        path: 'exportHeight',
+        name: 'Exported image height',
+      })
+      .addNumberInput({
         description: 'Factor of exported image resolution',
         path: 'resScale',
-        name: 'Image resolution scale',
+        name: 'Exported resolution scale (may cause odd spacing)',
         defaultValue: 1,
       })
       .addCustomEditor({

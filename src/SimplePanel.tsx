@@ -41,15 +41,17 @@ export class SimplePanel extends PureComponent<Props> {
     let layout = this.props.options.layout || defaults.layout;
     let frames = this.props.options.frames || defaults.frames;
 
-    // Multiply by 2 for higher resolution image
-    const resScale = this.props.options.resScale;
     const width = this.props.width;
     const height = this.props.height;
     const title = this.props.replaceVariables(this.props.title);
 
+    const exportWidth = this.props.options.exportWidth || width;
+    const exportHeight = this.props.options.exportHeight || height;
+    const resScale = this.props.options.resScale;
+
     // Fixes Plotly download issues
     const handleImageDownload = (gd: PlotlyHTMLElement) =>
-      toImage(gd, { format: 'png', width, height, scale: resScale }).then((data: any) => saveAs(data, title));
+      toImage(gd, { format: 'png', width: exportWidth, height: exportHeight, scale: resScale }).then((data: any) => saveAs(data, title));
 
     let parameters: any;
     parameters = { data: data, layout: layout, config: config };
@@ -103,6 +105,7 @@ export class SimplePanel extends PureComponent<Props> {
     // Convert data to array if not an array
     if (data.constructor === Object) {
       if (parameters.data.constructor === Array) {
+        console.log('Data parameters applied to all traces');
         data = Array(parameters.data.length).fill(data);
       }
     }
