@@ -45,12 +45,7 @@ export class SimplePanel extends PureComponent<Props> {
     const resScale = this.props.options.resScale;
     const width = this.props.width;
     const height = this.props.height;
-    let title = this.props.title;
-    if (/\${\w+}/.test(title)) {
-      title = title.replace(/\${(\w+)}/g, (match, v) => {
-        return context[v] || match;
-      });
-    }
+    const title = this.props.replaceVariables(this.props.title);
 
     // Fixes Plotly download issues
     const handleImageDownload = (gd: PlotlyHTMLElement) =>
