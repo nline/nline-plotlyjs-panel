@@ -1,5 +1,7 @@
 # Plotly Panel
 
+> ⚠️ If you are on Grafana 10, the syntax to access the fields from the `data` variable is different! Use `data.series[0].fields[0].values` without the `buffer` property as it doesn't exist anymore. This will be corrected in a new release.
+
 Render charts with [Plotly.js](https://plotly.com/javascript/).
 
 A maintained fork of [ae3e-plotly-panel](https://github.com/ae3e/ae3e-plotly-panel) with:
@@ -43,8 +45,8 @@ The script must return an object with one or more of the following properties:
 For example:
 
 ```javascript
-let x = data.series[0].fields[0].values.buffer;
-let y = data.series[0].fields[1].values.buffer;
+let x = data.series[0].fields[0].values;
+let y = data.series[0].fields[1].values;
 
 let series = {
   x: x,
