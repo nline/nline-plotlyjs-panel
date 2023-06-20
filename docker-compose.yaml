@@ -2,7 +2,7 @@ version: '3.0'
 
 services:
   grafana:
-    container_name: nline-plotlyjs-panel
+    container_name: 'nline-plotlyjs-panel'
     build:
       context: ./.config
       args:

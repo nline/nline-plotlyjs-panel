@@ -9,31 +9,30 @@ import { SimplePanel } from './SimplePanel';
 import { PanelOptionCode } from './PanelOptionCode';
 
 export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
-
   .setDataSupport({ annotations: true })
   .setPanelOptions((builder) => {
     return builder
       .addBooleanSwitch({
+        name: 'Plotly mode',
         description: 'Whether to edit in YAML or JSON',
         path: 'yamlMode',
-        name: 'Plotly mode',
         defaultValue: true,
       })
       .addNumberInput({
+        name: 'Exported image width',
         description: 'Defined width of exported image',
         path: 'exportWidth',
-        name: 'Exported image width',
       })
       .addNumberInput({
+        name: 'Exported image height',
         description: 'Defined height of exported image',
         path: 'exportHeight',
-        name: 'Exported image height',
       })
       .addNumberInput({
-        description: 'Factor of exported image resolution',
+        name: 'Exported resolution scale',
+        description: 'Factor of exported image resolution (may cause odd spacing)',
         path: 'resScale',
-        name: 'Exported resolution scale (may cause odd spacing)',
-        defaultValue: 1,
+        defaultValue: 2,
       })
       .addCustomEditor({
         id: 'data',
@@ -41,7 +40,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         name: 'Data',
         description: 'Data object of the Plotly chart',
         editor: PanelOptionCode,
-        category: ['Data'],
+        category: ['Static Configurations'],
         settings: {
           language: defaults.yamlMode ? 'yaml' : 'json',
           initValue: defaults.data,
@@ -52,9 +51,9 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         id: 'layout',
         path: 'layout',
         name: 'Layout',
-        description: 'Layout object for the Plotly chart',
+        description: 'Layout object for the Plotly chart (defaults are applied as base)',
         editor: PanelOptionCode,
-        category: ['Layout'],
+        category: ['Static Configurations'],
         settings: {
           language: defaults.yamlMode ? 'yaml' : 'json',
           initValue: defaults.layout,
@@ -67,7 +66,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         name: 'Configuration',
         description: 'Configuration object for the Plotly chart',
         editor: PanelOptionCode,
-        category: ['Config'],
+        category: ['Static Configurations'],
         settings: {
           language: defaults.yamlMode ? 'yaml' : 'json',
           initValue: defaults.config,
@@ -77,13 +76,13 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
       .addCustomEditor({
         id: 'script',
         path: 'script',
-        name: 'Script',
+        name: 'Processing Script',
         description: `
-            Script executed whenever new data is available.
-            Must return an object with one or more of the following properties:
-            data, layout, config as f(data, variables){...your code...}`,
+          Script executed whenever new data is available.
+          Must return an object with one or more of the following properties:
+          data, layout, config, frames as f(data, variables){...}`,
         editor: PanelOptionCode,
-        category: ['Script'],
+        category: ['JavaScript'],
         settings: {
           language: 'javascript',
         },
@@ -92,12 +91,12 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
       .addCustomEditor({
         id: 'onclick',
         path: 'onclick',
-        name: 'Click',
+        name: 'On-click Trigger',
         description: `
-            Script executed when chart is clicked.
-            f(data){...your code...}`,
+          Script executed when chart is clicked.
+          \`f(data){...}\``,
         editor: PanelOptionCode,
-        category: ['Click'],
+        category: ['JavaScript'],
         settings: {
           language: 'javascript',
         },

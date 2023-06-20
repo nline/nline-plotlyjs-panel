@@ -13,35 +13,46 @@ export interface SimpleOptions {
 }
 
 export type EditorCodeType = string | undefined;
+
 export type EditorLanguageType = 'javascript' | 'html' | 'json' | 'yaml' | undefined;
 
 export const defaults: SimpleOptions = {
   yamlMode: true,
   exportWidth: null,
   exportHeight: null,
-  resScale: 1,
+  resScale: 2,
   title: 'Plotly panel',
   layout: {
-    paper_bgcolor: 'rgba(0,0,0,0)',
-    plot_bgcolor: 'rgba(0,0,0,0)',
+    font: {
+      family: 'Inter, Helvetica, Arial, sans-serif',
+      color: 'rgb(25,27,31)',
+    },
+    paper_bgcolor: 'white',
+    plot_bgcolor: 'white',
+    hoverlabel: {
+      bgcolor: 'white',
+    },
     margin: {
-      t: 5,
-      r: 20,
-      b: 40,
-      l: 20,
+      t: 30,
+      r: 30,
+      b: 30,
+      l: 30,
+    },
+    xaxis: {
+      type: 'date',
+      autorange: true,
+      automargin: true,
     },
     yaxis: {
       automargin: true,
       autorange: true,
     },
   },
-  config: {
-    displayModeBar: false,
-  },
+  config: {},
   data: [
     {
       type: 'scatter',
-      mode: 'markers',
+      mode: 'lines',
       line: { color: 'red' },
       hovertext: 'Point from red trace',
     },
@@ -53,8 +64,8 @@ export const defaults: SimpleOptions = {
     },
   ],
   frames: [],
-  script: `let x = data.series[0].fields[0].values.buffer;
-let y = data.series[0].fields[1].values.buffer;
+  script: `let x = data.series[0].fields[0].values;
+let y = data.series[0].fields[1].values;
 
 let trace1 = {
   x: x,

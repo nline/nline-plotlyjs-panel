@@ -1,54 +1,45 @@
-// Code from https://github.com/gapitio/gapit-htmlgraphics-panel
-import React from 'react';
+import React, { useMemo } from 'react';
 import { StandardEditorProps } from '@grafana/data';
 import { CodeEditor } from '@grafana/ui';
-import { Resizable } from 're-resizable';
 import './panel.css';
-
+const { ResizableBox } = require('react-resizable');
 const YAML = require('js-yaml');
 
 interface Props extends StandardEditorProps<string, any, any, any> {}
 
-export const PanelOptionCode: React.FC<Props> = ({ value, item, onChange, context }) => {
-  let yaml = context.options.yamlMode;
+export const PanelOptionCode: React.FC<Props> = React.memo(({ value, item, onChange, context }) => {
+  const { options } = context;
+  const yaml = options?.yamlMode ?? false;
+  const { language } = item.settings ?? {};
 
-  if (typeof value !== 'string') {
-    item.settings.language = yaml ? 'yaml' : 'json';
-    value = yaml ? YAML.dump(value, null, 2) : JSON.stringify(value, null, 2);
-  }
+  const formattedValue = useMemo(() => {
+    if (typeof value !== 'string') {
+      const initValue = item.settings?.initValue ?? null;
+      return yaml ? YAML.dump(initValue, null, 2) : JSON.stringify(initValue, null, 2);
+    }
+    return value === 'null' ? null : value;
+  }, [value, item.settings, yaml]);
+
+  const handleBlur = (code: string) => {
+    const newValue = language === 'yaml' || language === 'json' ? YAML.load(code) : code;
+    onChange(newValue);
+  };
 
   return (
-    <Resizable
-      defaultSize={{
-        width: '100%',
-        height: '300px',
-      }}
-      enable={{
-        top: true,
-        bottom: true,
-      }}
+    <ResizableBox
+      height={300}
+      minConstraints={[200, 200]}
+      maxConstraints={[800, 800]}
+      resizeHandles={['se', 's', 'sw']}
     >
       <CodeEditor
-        language={item.settings?.language}
-        showLineNumbers={item.settings?.language === 'javascript' ? true : false}
-        value={
-          value === 'null'
-            ? yaml
-              ? YAML.dump(item.settings?.initValue, null, 2)
-              : JSON.stringify(item.settings?.initValue, null, 2)
-            : value
-        }
-        onBlur={(code) => {
-          if ((item.settings?.language === 'yaml' || item.settings?.language === 'json') && code) {
-            try {
-              code = yaml ? YAML.load(code) : JSON.parse(code);
-            } catch (e: any) {
-              console.error(e.message);
-            }
-          }
-          onChange(code);
-        }}
+        language={language}
+        showLineNumbers={language === 'javascript'}
+        value={formattedValue}
+        onBlur={handleBlur}
       />
-    </Resizable>
+    </ResizableBox>
   );
-};
+});
+
+PanelOptionCode.displayName = 'PanelOptionCode';

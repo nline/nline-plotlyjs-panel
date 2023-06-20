@@ -1,3 +1,8 @@
 [aria-label='Code editor container'] {
   height: 100%;
 }
+.react-resizable-handle {
+  visibility: visible !important;
+  filter: invert(1);
+  mix-blend-mode: difference;
+}
