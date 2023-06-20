@@ -56,11 +56,7 @@ export const SimplePanel = React.memo(
     });
 
     // Pick either options or defaults, but for layout, merge
-    let {
-      config = defaults.config,
-      data = defaults.data,
-      frames = defaults.frames,
-    } = options;
+    let { config = defaults.config, data = defaults.data, frames = defaults.frames } = options;
     let layout = { ...defaults.layout, ...options.layout };
 
     // Replace variables with Grafana vars is applicable
