@@ -119,8 +119,9 @@ export const SimplePanel = React.memo(
     };
 
     // Apply allData to all traces
-    if (allData != null) {
-      if (Array.isArray(parameters.data)) {
+    data = parameters.data ? merge(data, parameters.data, { arrayMerge: combineMerge }) : data;
+    if (allData != null && data != null) {
+      if (Array.isArray(data)) {
         data = data.map((b) => merge(allData, b, { arrayMerge: (_, sourceArray) => sourceArray }));
       }
     }
@@ -144,7 +145,7 @@ export const SimplePanel = React.memo(
         ) : (
           <Plot
             style={{ width: '100%', height: '100%' }}
-            data={parameters.data ? merge(data, parameters.data, { arrayMerge: combineMerge }) : data}
+            data={data}
             frames={parameters.frames ? merge(frames, parameters.frames, { arrayMerge: combineMerge }) : frames}
             layout={parameters.layout ? merge(layout, parameters.layout) : layout}
             config={parameters.config ? merge(config, parameters.config) : config}
@@ -164,12 +165,8 @@ export const SimplePanel = React.memo(
   },
   (prevProps, nextProps) => {
     // Only render on these conditions
-    return (
-      _.isEqual(prevProps.options, nextProps.options) &&
-      _.isEqual(prevProps.width, nextProps.width) &&
-      _.isEqual(prevProps.height, nextProps.height) &&
-      _.isEqual(prevProps.data, nextProps.data) &&
-      _.isEqual(prevProps.timeRange, nextProps.timeRange)
+    return (['options', 'width', 'height', 'data', 'timeRange'] as Array<keyof Props>).every((prop) =>
+      _.isEqual(prevProps[prop], nextProps[prop])
     );
   }
 );
