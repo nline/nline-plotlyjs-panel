@@ -23,11 +23,11 @@ const combineMerge = (target: any, source: any, options: any) => {
   return destination;
 };
 
-const transformValues = (data: any, transformFn: (value: string) => string): any => {
+const fmtValues = (data: any, transformFn: (value: string) => string): any => {
   if (Array.isArray(data)) {
-    return _.map(data, (item) => transformValues(item, transformFn));
+    return _.map(data, (item) => fmtValues(item, transformFn));
   } else if (typeof data === 'object' && data !== null) {
-    return _.mapValues(data, (value) => transformValues(value, transformFn));
+    return _.mapValues(data, (value) => fmtValues(value, transformFn));
   } else if (typeof data === 'string') {
     return transformFn(data);
   }
@@ -64,21 +64,15 @@ export const SimplePanel = React.memo(
         scale: options.resScale,
       }).then((data: any) => saveAs(data, title));
 
-    // Pick either options or defaults, but for layout, merge
+    // Pick base if not specified in options
     let {
-      allData = options.allData ?? base.allData,
-      data = options.data ?? base.data,
-      config = options.config ?? base.config,
-      frames = options.frames ?? base.frames,
+      allData = fmtValues(options.allData ?? base.allData, replaceVariables),
+      data = fmtValues(options.data ?? base.data, replaceVariables),
+      config = fmtValues(options.config ?? base.config, replaceVariables),
+      frames = fmtValues(options.frames ?? base.frames, replaceVariables),
     } = options;
-    let layout = merge(base.layout, options.layout ?? {}) as Partial<Layout>;
-
-    // Replace variables with Grafana vars is applicable
-    allData = transformValues(allData, replaceVariables);
-    data = transformValues(data, replaceVariables);
-    layout = transformValues(layout, replaceVariables);
-    config = transformValues(config, replaceVariables);
-    frames = transformValues(frames, replaceVariables);
+    // Merge base layout styles
+    let layout = fmtValues(merge(base.layout, options.layout ?? {}) as Partial<Layout>, replaceVariables);
     let title = replaceVariables(props.title);
 
     let parameters: any;
@@ -138,7 +132,7 @@ export const SimplePanel = React.memo(
             </p>
             <p>Check your console for more details</p>
           </div>
-        ) : data.every((obj) => obj !== null && obj.hasOwnProperty('series') && obj.series.length === 0) ? (
+        ) : data.every((obj: any) => obj !== null && obj.hasOwnProperty('series') && obj.series.length === 0) ? (
           <div style={{ display: 'flex', position: 'fixed', height: '100%', width: '100%', justifyContent: 'center' }}>
             <h4 style={{ margin: 'auto 1em' }}>No data in selected range or source</h4>
           </div>
