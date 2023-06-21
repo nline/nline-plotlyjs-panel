@@ -34,6 +34,10 @@ const fmtValues = (data: any, transformFn: (value: string) => string): any => {
   return data;
 };
 
+const emptyData = (data: any) => {
+  return data.every((obj: any) => obj !== null && obj.hasOwnProperty('series') && obj.series.length === 0);
+};
+
 const Plot = createPlotlyComponent(Plotly);
 
 let templateSrv = getTemplateSrv();
@@ -79,7 +83,6 @@ export const SimplePanel = React.memo(
     parameters = { data: data, layout: layout, config: config };
 
     let lines: any;
-    let error: any;
     try {
       if (props.options.script !== '' && props.data.state !== 'Error') {
         let f = new Function('data, variables, parameters', options.script);
@@ -87,13 +90,28 @@ export const SimplePanel = React.memo(
         if (!parameters || typeof parameters === 'undefined') {
           throw new Error('Script must return values!');
         }
+      } else if (props.options.script === '') {
+        return (
+          <div>
+            <p>Please define a valid transformation within the Script Editor panel.</p>
+          </div>
+        );
       }
-    } catch (e) {
-      // Can't update chart when script is changing
-      error = e;
-      let matches = error.stack.match(/anonymous>:.*\)/m);
+    } catch (e: any) {
+      let matches = e.stack.match(/anonymous>:.*\)/m);
       lines = matches ? matches[0].slice(0, -1).split(':') : null;
       console.error(e);
+      return (
+        <div>
+          <p>There&apos;s an error in your script:</p>
+          <p>
+            <code style={{ color: '#D00' }}>
+              {e.toString()} {lines ? `- line ${parseInt(lines[1], 10) - 2}:${lines[2]}` : ''}
+            </code>
+          </p>
+          <p>Check your console for more details</p>
+        </div>
+      );
     }
 
     // Set defaults
@@ -116,23 +134,13 @@ export const SimplePanel = React.memo(
     data = parameters.data ? merge(data, parameters.data, { arrayMerge: combineMerge }) : data;
     if (allData != null && data != null) {
       if (Array.isArray(data)) {
-        data = data.map((b) => merge(allData, b, { arrayMerge: (_, sourceArray) => sourceArray }));
+        data = data.map((any: any) => merge(allData, any, { arrayMerge: (_, sourceArray) => sourceArray }));
       }
     }
 
     return (
       <div>
-        {error ? (
-          <div>
-            <p>There&apos;s an error in your script:</p>
-            <p>
-              <code style={{ color: '#D00' }}>
-                {error.toString()} {lines ? `- line ${parseInt(lines[1], 10) - 2}:${lines[2]}` : ''}
-              </code>
-            </p>
-            <p>Check your console for more details</p>
-          </div>
-        ) : data.every((obj: any) => obj !== null && obj.hasOwnProperty('series') && obj.series.length === 0) ? (
+        {emptyData(data) ? (
           <div style={{ display: 'flex', position: 'fixed', height: '100%', width: '100%', justifyContent: 'center' }}>
             <h4 style={{ margin: 'auto 1em' }}>No data in selected range or source</h4>
           </div>
@@ -159,9 +167,8 @@ export const SimplePanel = React.memo(
   },
   (prevProps, nextProps) => {
     // Only render on these conditions
-    return (['options', 'width', 'height', 'data', 'timeRange'] as Array<keyof Props>).every((prop) =>
-      _.isEqual(prevProps[prop], nextProps[prop])
-    );
+    const memoFields = ['options', 'width', 'height', 'data', 'timeRange', 'timeZone', 'title'];
+    return (memoFields as Array<keyof Props>).every((prop) => _.isEqual(prevProps[prop], nextProps[prop]));
   }
 );
 
