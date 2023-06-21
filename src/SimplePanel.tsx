@@ -1,9 +1,9 @@
 import React from 'react';
 import { PanelProps } from '@grafana/data';
 import { getTemplateSrv, locationService } from '@grafana/runtime';
-import { SimpleOptions, defaults } from 'types';
+import { SimpleOptions, base } from 'types';
 import { saveAs } from 'file-saver';
-import Plotly, { toImage, Icons, PlotlyHTMLElement } from 'plotly.js-dist-min';
+import Plotly, { toImage, Icons, PlotlyHTMLElement, Layout } from 'plotly.js-dist-min';
 import createPlotlyComponent from 'react-plotly.js/factory';
 import merge from 'deepmerge';
 import _ from 'lodash';
@@ -55,17 +55,6 @@ export const SimplePanel = React.memo(
       context[v.name] = v.current.text;
     });
 
-    // Pick either options or defaults, but for layout, merge
-    let { config = defaults.config, data = defaults.data, frames = defaults.frames } = options;
-    let layout = { ...defaults.layout, ...options.layout };
-
-    // Replace variables with Grafana vars is applicable
-    layout = transformValues(layout, replaceVariables);
-    config = transformValues(config, replaceVariables);
-    data = transformValues(data, replaceVariables);
-    frames = transformValues(frames, replaceVariables);
-    const title = replaceVariables(props.title);
-
     // Fixes Plotly download issues
     const handleImageDownload = (gd: PlotlyHTMLElement) =>
       toImage(gd, {
@@ -74,6 +63,23 @@ export const SimplePanel = React.memo(
         height: options.exportHeight || height,
         scale: options.resScale,
       }).then((data: any) => saveAs(data, title));
+
+    // Pick either options or defaults, but for layout, merge
+    let {
+      allData = options.allData ?? base.allData,
+      data = options.data ?? base.data,
+      config = options.config ?? base.config,
+      frames = options.frames ?? base.frames,
+    } = options;
+    let layout = merge(base.layout, options.layout ?? {}) as Partial<Layout>;
+
+    // Replace variables with Grafana vars is applicable
+    allData = transformValues(allData, replaceVariables);
+    data = transformValues(data, replaceVariables);
+    layout = transformValues(layout, replaceVariables);
+    config = transformValues(config, replaceVariables);
+    frames = transformValues(frames, replaceVariables);
+    let title = replaceVariables(props.title);
 
     let parameters: any;
     parameters = { data: data, layout: layout, config: config };
@@ -112,11 +118,10 @@ export const SimplePanel = React.memo(
       displaylogo: false,
     };
 
-    // Convert data to array if not an array
-    if (data.constructor === Object) {
-      if (parameters.data.constructor === Array) {
-        // Data parameters applied to all traces
-        data = Array(parameters.data.length).fill(data);
+    // Apply allData to all traces
+    if (allData != null) {
+      if (Array.isArray(parameters.data)) {
+        data = data.map((b) => merge(allData, b, { arrayMerge: (_, sourceArray) => sourceArray }));
       }
     }
 
@@ -132,7 +137,7 @@ export const SimplePanel = React.memo(
             </p>
             <p>Check your console for more details</p>
           </div>
-        ) : Array.isArray(data) && data.every((obj) => obj.hasOwnProperty('series') && obj.series.length === 0) ? (
+        ) : data.every((obj) => obj !== null && obj.hasOwnProperty('series') && obj.series.length === 0) ? (
           <div style={{ display: 'flex', position: 'fixed', height: '100%', width: '100%', justifyContent: 'center' }}>
             <h4 style={{ margin: 'auto 1em' }}>No data in selected range or source</h4>
           </div>

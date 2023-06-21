@@ -1,5 +1,5 @@
 import { PanelPlugin } from '@grafana/data';
-import { SimpleOptions, defaults } from './types';
+import { SimpleOptions, inits, base } from './types';
 // Import an entire module for side effects only, without importing anything.
 // This runs the module's global code, but doesn't actually import any values.
 // It sets the global variable for Plotly before loading plotly.js
@@ -35,17 +35,34 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         defaultValue: 2,
       })
       .addCustomEditor({
+        id: 'allData',
+        path: 'allData',
+        name: 'Cross-trace Data',
+        description: 'Data props applied across all traces on the Plotly chart (object)',
+        editor: PanelOptionCode,
+        category: ['Data Editor'],
+        settings: {
+          editorHeight: 150,
+          language: inits.yamlMode ? 'yaml' : 'json',
+          baseValue: base.allData,
+          initValue: inits.allData,
+        },
+        defaultValue: inits.allData,
+      })
+      .addCustomEditor({
         id: 'data',
         path: 'data',
         name: 'Data',
-        description: 'Data object of the Plotly chart',
+        description: 'Data object of the Plotly chart (array)',
         editor: PanelOptionCode,
-        category: ['Static Configurations'],
+        category: ['Data Editor'],
         settings: {
-          language: defaults.yamlMode ? 'yaml' : 'json',
-          initValue: defaults.data,
+          editorHeight: 150,
+          language: inits.yamlMode ? 'yaml' : 'json',
+          baseValue: base.data,
+          initValue: inits.data,
         },
-        defaultValue: defaults.data,
+        defaultValue: inits.data,
       })
       .addCustomEditor({
         id: 'layout',
@@ -53,12 +70,13 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         name: 'Layout',
         description: 'Layout object for the Plotly chart (defaults are applied as base)',
         editor: PanelOptionCode,
-        category: ['Static Configurations'],
+        category: ['Layout Editor'],
         settings: {
-          language: defaults.yamlMode ? 'yaml' : 'json',
-          initValue: defaults.layout,
+          language: inits.yamlMode ? 'yaml' : 'json',
+          baseValue: base.layout,
+          initValue: inits.layout,
         },
-        defaultValue: defaults.layout,
+        defaultValue: inits.layout,
       })
       .addCustomEditor({
         id: 'config',
@@ -66,12 +84,14 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         name: 'Configuration',
         description: 'Configuration object for the Plotly chart',
         editor: PanelOptionCode,
-        category: ['Static Configurations'],
+        category: ['Config Editor'],
         settings: {
-          language: defaults.yamlMode ? 'yaml' : 'json',
-          initValue: defaults.config,
+          editorHeight: 150,
+          language: inits.yamlMode ? 'yaml' : 'json',
+          baseValue: base.config,
+          initValue: inits.config,
         },
-        defaultValue: defaults.config,
+        defaultValue: inits.config,
       })
       .addCustomEditor({
         id: 'script',
@@ -82,11 +102,11 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
           Must return an object with one or more of the following properties:
           data, layout, config, frames as f(data, variables){...}`,
         editor: PanelOptionCode,
-        category: ['JavaScript'],
+        category: ['Script Editor'],
         settings: {
           language: 'javascript',
         },
-        defaultValue: defaults.script,
+        defaultValue: inits.script,
       })
       .addCustomEditor({
         id: 'onclick',
@@ -96,10 +116,10 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
           Script executed when chart is clicked.
           \`f(data){...}\``,
         editor: PanelOptionCode,
-        category: ['JavaScript'],
+        category: ['On-click Editor'],
         settings: {
           language: 'javascript',
         },
-        defaultValue: defaults.onclick,
+        defaultValue: inits.onclick,
       });
   });

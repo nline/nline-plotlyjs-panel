@@ -4,51 +4,73 @@ export interface SimpleOptions {
   exportHeight: number | null;
   resScale: number;
   title: string;
+  allData: object;
+  data: any[];
   layout: object;
   config: object;
-  data: any;
   frames: any[];
   script: string;
   onclick: string;
+}
+
+export interface SimpleBase {
+  allData: object;
+  data: any[];
+  layout: object;
+  config: object;
+  frames: any[];
 }
 
 export type EditorCodeType = string | undefined;
 
 export type EditorLanguageType = 'javascript' | 'html' | 'json' | 'yaml' | undefined;
 
-export const defaults: SimpleOptions = {
+const defaultAllData = { opacity: 0.8 };
+
+const defaultLayout = {
+  font: {
+    family: 'Inter, Helvetica, Arial, sans-serif',
+    color: 'rgb(25,27,31)',
+  },
+  paper_bgcolor: 'white',
+  plot_bgcolor: 'white',
+  hoverlabel: {
+    bgcolor: 'white',
+  },
+  margin: {
+    t: 30,
+    r: 30,
+    b: 30,
+    l: 30,
+  },
+  xaxis: {
+    type: 'date',
+    autorange: true,
+    automargin: true,
+  },
+  yaxis: {
+    automargin: true,
+    autorange: true,
+  },
+};
+
+// Defaults that Plotly falls back to
+export const base: SimpleBase = {
+  data: [],
+  allData: defaultAllData,
+  layout: defaultLayout,
+  config: {},
+  frames: [],
+};
+
+// Defaults that Plotly begins with as an example
+export const inits: SimpleOptions = {
   yamlMode: true,
   exportWidth: null,
   exportHeight: null,
   resScale: 2,
   title: 'Plotly panel',
-  layout: {
-    font: {
-      family: 'Inter, Helvetica, Arial, sans-serif',
-      color: 'rgb(25,27,31)',
-    },
-    paper_bgcolor: 'white',
-    plot_bgcolor: 'white',
-    hoverlabel: {
-      bgcolor: 'white',
-    },
-    margin: {
-      t: 30,
-      r: 30,
-      b: 30,
-      l: 30,
-    },
-    xaxis: {
-      type: 'date',
-      autorange: true,
-      automargin: true,
-    },
-    yaxis: {
-      automargin: true,
-      autorange: true,
-    },
-  },
-  config: {},
+  allData: defaultAllData,
   data: [
     {
       type: 'scatter',
@@ -63,6 +85,8 @@ export const defaults: SimpleOptions = {
       hovertext: 'Point from blue trace',
     },
   ],
+  layout: defaultLayout,
+  config: {},
   frames: [],
   script: `let x = data.series[0].fields[0].values;
 let y = data.series[0].fields[1].values;
