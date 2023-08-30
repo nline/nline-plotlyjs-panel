@@ -92,29 +92,22 @@ export const SimplePanel = React.memo(
           throw e;
         }
       } else if (props.options.script === '') {
-        return (
-          <div>
-            <p>
-              Please define a valid transformation within the <b>Script Editor</b> panel.
-            </p>
-          </div>
-        );
+        throw new Error('Please define a valid transformation within the Script Editor panel');
       }
     } catch (e: any) {
       let matches = e.stack.match(/anonymous>:.*\)/m);
-      lines = matches ? matches[0].slice(0, -1).split(':') : null;
-      console.log(props);
-      return (
-        <div>
-          <p>There&apos;s an error in your script:</p>
-          <p>
-            <code style={{ color: '#D00' }}>
-              {e.toString()} {lines ? `- line ${parseInt(lines[1], 10) - 2}:${lines[2]}` : ''}
-            </code>
-          </p>
-          <p>Check your console for more details</p>
-        </div>
-      );
+      let match: any;
+      if (!matches) {
+        match = e.stack.match(/Function:.*$/m)[0];
+      } else {
+        match = matches[0].slice(0, -1);
+      }
+      lines = match ? match.split(':') : null;
+
+      const msg = `Error from script:
+${e.toString()}
+${lines ? ` - line ${parseInt(lines[1], 10) - 2}:${lines[2]}` : ''}`;
+      throw new Error(msg);
     }
 
     // Set defaults
