@@ -88,19 +88,22 @@ export const SimplePanel = React.memo(
         let f = new Function('data, variables, parameters', options.script);
         parameters = f(props.data, context, parameters);
         if (!parameters || typeof parameters === 'undefined') {
-          throw new Error('Script must return values!');
+          let e = new Error('Script must return values!');
+          throw e;
         }
       } else if (props.options.script === '') {
         return (
           <div>
-            <p>Please define a valid transformation within the Script Editor panel.</p>
+            <p>
+              Please define a valid transformation within the <b>Script Editor</b> panel.
+            </p>
           </div>
         );
       }
     } catch (e: any) {
       let matches = e.stack.match(/anonymous>:.*\)/m);
       lines = matches ? matches[0].slice(0, -1).split(':') : null;
-      console.error(e);
+      console.log(props);
       return (
         <div>
           <p>There&apos;s an error in your script:</p>
