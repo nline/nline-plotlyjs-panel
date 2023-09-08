@@ -37,12 +37,6 @@ const defaultLayout = {
   hoverlabel: {
     bgcolor: 'white',
   },
-  margin: {
-    t: 30,
-    r: 30,
-    b: 30,
-    l: 30,
-  },
   xaxis: {
     type: 'date',
     autorange: true,
@@ -56,8 +50,8 @@ const defaultLayout = {
 
 // Defaults that Plotly falls back to
 export const base: SimpleBase = {
-  data: [],
   allData: defaultAllData,
+  data: [],
   layout: defaultLayout,
   config: {},
   frames: [],

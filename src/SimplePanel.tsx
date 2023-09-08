@@ -68,13 +68,12 @@ export const SimplePanel = React.memo(
         scale: options.resScale,
       }).then((data: any) => saveAs(data, title));
 
-    // Pick base if not specified in options
-    let {
-      allData = fmtValues(options.allData ?? base.allData, replaceVariables),
-      data = fmtValues(options.data ?? base.data, replaceVariables),
-      config = fmtValues(options.config ?? base.config, replaceVariables),
-      frames = fmtValues(options.frames ?? base.frames, replaceVariables),
-    } = options;
+    // Replace variables and use base data if empty
+    let keys = ['allData', 'data', 'config', 'frames', 'script', 'onclick'];
+    let [allData, data, config, frames, script, onclick] = keys.map((key) =>
+      fmtValues((options as any)[key] ?? ((base as any)[key] || null), replaceVariables)
+    );
+
     // Merge base layout styles
     let layout = fmtValues(merge(base.layout, options.layout ?? {}) as Partial<Layout>, replaceVariables);
     let title = replaceVariables(props.title);
@@ -83,31 +82,37 @@ export const SimplePanel = React.memo(
     parameters = { data: data, layout: layout, config: config };
 
     let lines: any;
+    let known_err: any;
     try {
       if (props.options.script !== '' && props.data.state !== 'Error') {
-        let f = new Function('data, variables, parameters', options.script);
+        let f = new Function('data, variables, parameters', script);
         parameters = f(props.data, context, parameters);
         if (!parameters || typeof parameters === 'undefined') {
           let e = new Error('Script must return values!');
+          known_err = true;
           throw e;
         }
       } else if (props.options.script === '') {
+        known_err = true;
         throw new Error('Please define a valid transformation within the Script Editor panel');
       }
     } catch (e: any) {
-      let matches = e.stack.match(/anonymous>:.*\)/m);
-      let match: any;
-      if (!matches) {
-        match = e.stack.match(/Function:.*$/m)[0];
-      } else {
-        match = matches[0].slice(0, -1);
-      }
-      lines = match ? match.split(':') : null;
+      if (!known_err) {
+        let matches = e.stack.match(/anonymous>:.*\)/m);
+        let match: any;
+        if (!matches) {
+          match = e.stack.match(/Function:.*$/m)[0];
+        } else {
+          match = matches[0].slice(0, -1);
+        }
+        lines = match ? match.split(':') : null;
 
-      const msg = `Error from script:
-${e.toString()}
-${lines ? ` - line ${parseInt(lines[1], 10) - 2}:${lines[2]}` : ''}`;
-      throw new Error(msg);
+        const msg = `Issue in Script:
+${e.toString()}${lines ? ` - line ${parseInt(lines[1], 10) - 2}:${lines[2]}` : ''}`;
+        throw new Error(msg);
+      } else {
+        throw e;
+      }
     }
 
     // Set defaults
@@ -148,12 +153,11 @@ ${lines ? ` - line ${parseInt(lines[1], 10) - 2}:${lines[2]}` : ''}`;
             layout={parameters.layout ? merge(layout, parameters.layout) : layout}
             config={parameters.config ? merge(config, parameters.config) : config}
             onInitialized={(figure, graphDiv) => {
-              const updatedLayout = merge(figure.layout, { autosize: true, height: height });
-              Plotly.react(graphDiv, figure.data, updatedLayout);
+              Plotly.react(graphDiv, figure.data, figure.layout);
             }}
             useResizeHandler={true}
             onClick={(data) => {
-              const f = new Function('data', 'locationService', 'getTemplateSrv', options.onclick);
+              const f = new Function('data', 'locationService', 'getTemplateSrv', onclick);
               f(data, locationService, getTemplateSrv);
             }}
           />
