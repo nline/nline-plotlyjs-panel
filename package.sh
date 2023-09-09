@@ -11,7 +11,7 @@ else
 fi
 echo "Packaging $tag"
 
-rm nline-plotlyjs-panel-"${tag}".*
+rm -f nline-plotlyjs-panel-"${tag}".*
 rm -rf dist
 yarn install && yarn build && npx @grafana/sign-plugin@latest
 
