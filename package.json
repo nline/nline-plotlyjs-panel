@@ -1,6 +1,6 @@
 {
   "name": "nline-plotlyjs-panel",
-  "version": "1.5.2",
+  "version": "1.6.0",
   "description": "Grafana Plotly Plugin",
   "scripts": {
     "build": "webpack -c ./.config/webpack/webpack.config.ts --env production",
@@ -75,6 +75,7 @@
     "@grafana/ui": "^10.0.0",
     "@types/file-saver": "^2.0.5",
     "@types/plotly.js": "^2.12.18",
+    "dayjs": "^1.11.10",
     "deepmerge": "^4.2.2",
     "file-saver": "^2.0.5",
     "js-yaml": "^4.1.0",

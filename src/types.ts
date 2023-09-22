@@ -25,8 +25,6 @@ export type EditorCodeType = string | undefined;
 
 export type EditorLanguageType = 'javascript' | 'html' | 'json' | 'yaml' | undefined;
 
-const defaultAllData = { opacity: 0.8 };
-
 const defaultLayout = {
   font: {
     family: 'Inter, Helvetica, Arial, sans-serif',
@@ -50,7 +48,7 @@ const defaultLayout = {
 
 // Defaults that Plotly falls back to
 export const base: SimpleBase = {
-  allData: defaultAllData,
+  allData: {},
   data: [],
   layout: defaultLayout,
   config: {},
@@ -64,37 +62,20 @@ export const inits: SimpleOptions = {
   exportHeight: null,
   resScale: 2,
   title: 'Plotly panel',
-  allData: defaultAllData,
-  data: [
-    {
-      type: 'scatter',
-      mode: 'lines',
-      line: { color: 'red' },
-      hovertext: 'Point from red trace',
-    },
-    {
-      type: 'scatter',
-      mode: 'lines',
-      line: { color: 'blue' },
-      hovertext: 'Point from blue trace',
-    },
-  ],
+  allData: {},
+  data: [],
   layout: defaultLayout,
   config: {},
   frames: [],
-  script: `let x = data.series[0].fields[0].values;
-let y = data.series[0].fields[1].values;
-
-let trace1 = {
-  x: x,
-  y: y
-};
-let trace2 = {
-  x: x,
-  y: y.map(x => x * 1.1)
-};
-
-return { data: [trace1, trace2] };`,
-  onclick: `// console.log(data);
-// window.updateVariables({query:{'var-project':'test'}, partial: true})`,
+  script: `\
+// let x = data.series[0].fields[0].values;
+// let y = data.series[0].fields[1].values;
+// let trace = { x: x, y: y };
+// return { data: [trace] };
+return {}
+  `,
+  onclick: `\
+// console.log(data);
+// locationService.partial({ 'var-example': 'test' }, true);
+  `,
 };

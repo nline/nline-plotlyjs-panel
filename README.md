@@ -1,22 +1,20 @@
 # Plotly Panel
 
-> ⚠️ If you are on Grafana 10, the syntax to access the fields from the `data` variable is different! Use `data.series[0].fields[0].values` without the `buffer` property as it doesn't exist anymore. This will be corrected in a new release.
+> ⚠️ If you are on Grafana 10, the syntax to access the fields from the `data` variable is different! Use `data.series[0].fields[0].values` without the `buffer` property as it doesn't exist anymore.
 
 Render charts with [Plotly.js](https://plotly.com/javascript/).
 
-A maintained fork of [ae3e-plotly-panel](https://github.com/ae3e/ae3e-plotly-panel) with:
-
-- Updated Plotly.js package
-- Ability to export plot as image (fixed)
+- Export plot as an image (with resolution tuning)
+- YAML/JSON support
+- Timezone adjustment
+- Apply `Data` configs across traces
 - Expandable code editors
-- YAML support
-- Updated dependencies
-- Depreciated packages/code removed
-- Linting, style standardization, code correction
-- Better documentation
+- Grafana variable substitution
 - and more!
 
 Unlike the [natel-plotly-panel](https://github.com/NatelEnergy/grafana-plotly-panel), this plugin is not limited to specific types of charts. This plugin allows fine grained control over the `data`, `layout`, and`config` parameters used to build a Plotly plot.
+
+This plugin began as maintained fork of [ae3e-plotly-panel](https://github.com/ae3e/ae3e-plotly-panel) but has been rewritten since.
 
 [![Marketplace](https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=marketplace&prefix=v&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22nline-plotlyjs-panel%22%29%5D.version&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins)](https://grafana.com/grafana/plugins/nline-plotlyjs-panel)
 [![Downloads](https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=downloads&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22nline-plotlyjs-panel%22%29%5D.downloads&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins)](https://grafana.com/grafana/plugins/nline-plotlyjs-panel)
@@ -48,16 +46,19 @@ For example:
 let x = data.series[0].fields[0].values;
 let y = data.series[0].fields[1].values;
 
+// Switch from UTC to the dashboard time zone
+x = matchTimezone(x);
+
 let series = {
   x: x,
   y: y,
   name: variables.dash_var,
-  // where 'dash_var' is the name of
+  // Where 'dash_var' is the name of
   // a Grafana dashboard variable
 };
 
 return {
-  data: [series],
+  data: [ series ],
   config: {
     displayModeBar: false,
   },

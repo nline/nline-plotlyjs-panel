@@ -7,6 +7,12 @@ import Plotly, { toImage, Icons, PlotlyHTMLElement, Layout } from 'plotly.js-dis
 import createPlotlyComponent from 'react-plotly.js/factory';
 import merge from 'deepmerge';
 import _ from 'lodash';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const combineMerge = (target: any, source: any, options: any) => {
   const destination = target.slice();
@@ -40,14 +46,16 @@ const emptyData = (data: any) => {
 
 const Plot = createPlotlyComponent(Plotly);
 
-let templateSrv = getTemplateSrv();
-
 interface Props extends PanelProps<SimpleOptions> {}
 
 export const SimplePanel = React.memo(
   (props: Props) => {
     // Get all variables
-    const { options, replaceVariables, width, height } = props;
+    const { options, replaceVariables, width, height, timeZone } = props;
+    const offset = dayjs().tz(timeZone).utcOffset() * 60 * 1000;
+    const matchTimezone = (timeStamps: number[]) => {
+      return timeStamps.map((ts: number) => ts - offset);
+    };
 
     const context = {
       __from: replaceVariables('$__from'),
@@ -55,9 +63,11 @@ export const SimplePanel = React.memo(
       __interval: replaceVariables('$__interval'),
       __interval_ms: replaceVariables('$__interval_ms'),
     } as any;
-    templateSrv.getVariables().forEach((v: any) => {
-      context[v.name] = v.current.text;
-    });
+    getTemplateSrv()
+      .getVariables()
+      .forEach((v: any) => {
+        context[v.name] = v.current.text;
+      });
 
     // Fixes Plotly download issues
     const handleImageDownload = (gd: PlotlyHTMLElement) =>
@@ -85,12 +95,12 @@ export const SimplePanel = React.memo(
     let known_err: any;
     try {
       if (props.options.script !== '' && props.data.state !== 'Error') {
-        let f = new Function('data, variables, parameters', script);
-        parameters = f(props.data, context, parameters);
+        let f = new Function('data, variables, parameters, timeZone, dayjs, matchTimezone', script);
+        parameters = f(props.data, context, parameters, timeZone, dayjs, matchTimezone);
+
         if (!parameters || typeof parameters === 'undefined') {
-          let e = new Error('Script must return values!');
           known_err = true;
-          throw e;
+          throw new Error('Script must return values!');
         }
       } else if (props.options.script === '') {
         known_err = true;
@@ -98,17 +108,14 @@ export const SimplePanel = React.memo(
       }
     } catch (e: any) {
       if (!known_err) {
-        let matches = e.stack.match(/anonymous>:.*\)/m);
-        let match: any;
-        if (!matches) {
-          match = e.stack.match(/Function:.*$/m)[0];
-        } else {
-          match = matches[0].slice(0, -1);
-        }
+        let matches = e.stack.match(/anonymous>:.*\)/m) || e.stack.match(/Function:.*$/m);
+        let match: any = matches ? matches[0].slice(0, -1) : null;
+
         lines = match ? match.split(':') : null;
 
-        const msg = `Issue in Script:
-${e.toString()}${lines ? ` - line ${parseInt(lines[1], 10) - 2}:${lines[2]}` : ''}`;
+        const msg = `Issue in Script:\n${e.toString()}${
+          lines ? ` - line ${parseInt(lines[1], 10) - 2}:${lines[2]}` : ''
+        }`;
         throw new Error(msg);
       } else {
         throw e;

@@ -100,7 +100,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         description: `
           Script executed whenever new data is available.
           Must return an object with one or more of the following properties:
-          data, layout, config, frames as f(data, variables){...}`,
+          data, layout, config, frames: f(data, variables){...}`,
         editor: PanelOptionCode,
         category: ['Script Editor'],
         settings: {
@@ -113,8 +113,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         path: 'onclick',
         name: 'On-click Trigger',
         description: `
-          Script executed when chart is clicked.
-          \`f(data){...}\``,
+          Script executed when chart is clicked: f(data){...}`,
         editor: PanelOptionCode,
         category: ['On-click Editor'],
         settings: {
