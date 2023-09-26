@@ -52,7 +52,19 @@ export const SimplePanel = React.memo(
   (props: Props) => {
     // Get all variables
     const { options, replaceVariables, width, height, timeZone } = props;
-    const offset = dayjs().tz(timeZone).utcOffset() * 60 * 1000;
+
+    // Image export for Plotly download issues
+    let handleImageDownload = (gd: PlotlyHTMLElement) =>
+      toImage(gd, {
+        format: 'svg',
+        width: options.exportWidth || width,
+        height: options.exportHeight || height,
+        scale: options.resScale,
+      }).then((data: any) => saveAs(data, title));
+
+    // Add convenience function for matching UTC data to timezone
+    const tz = timeZone === 'browser' ? Intl.DateTimeFormat().resolvedOptions().timeZone : timeZone;
+    const offset = dayjs().tz(tz).utcOffset() * 60 * 1000;
     const matchTimezone = (timeStamps: number[]) => {
       return timeStamps.map((ts: number) => ts - offset);
     };
@@ -68,15 +80,6 @@ export const SimplePanel = React.memo(
       .forEach((v: any) => {
         context[v.name] = v.current.text;
       });
-
-    // Fixes Plotly download issues
-    const handleImageDownload = (gd: PlotlyHTMLElement) =>
-      toImage(gd, {
-        format: 'png',
-        width: options.exportWidth || width,
-        height: options.exportHeight || height,
-        scale: options.resScale,
-      }).then((data: any) => saveAs(data, title));
 
     // Replace variables and use base data if empty
     let keys = ['allData', 'data', 'config', 'frames', 'script', 'onclick'];
@@ -95,8 +98,17 @@ export const SimplePanel = React.memo(
     let known_err: any;
     try {
       if (props.options.script !== '' && props.data.state !== 'Error') {
-        let f = new Function('data, variables, parameters, timeZone, dayjs, matchTimezone', script);
-        parameters = f(props.data, context, parameters, timeZone, dayjs, matchTimezone);
+        // What to pass into the script context
+        const parameterValues = {
+          data: props.data,
+          variables: context,
+          parameters,
+          timeZone,
+          dayjs,
+          matchTimezone,
+        };
+        const f = new Function(...Object.keys(parameterValues), script);
+        parameters = f(...Object.values(parameterValues));
 
         if (!parameters || typeof parameters === 'undefined') {
           known_err = true;
@@ -164,8 +176,10 @@ export const SimplePanel = React.memo(
             }}
             useResizeHandler={true}
             onClick={(data) => {
-              const f = new Function('data', 'locationService', 'getTemplateSrv', onclick);
-              f(data, locationService, getTemplateSrv);
+              // What to pass into the onclick context
+              const parameterValues = { data, locationService, getTemplateSrv };
+              const f = new Function(...Object.keys(parameterValues), onclick);
+              f(...Object.values(parameterValues));
             }}
           />
         )}
