@@ -78,7 +78,7 @@ export const SimplePanel = React.memo(
     getTemplateSrv()
       .getVariables()
       .forEach((v: any) => {
-        context[v.name] = v.current.text;
+        context[v.name] = v;
       });
 
     // Replace variables and use base data if empty
