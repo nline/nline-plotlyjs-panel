@@ -56,7 +56,7 @@ export const SimplePanel = React.memo(
     // Image export for Plotly download issues
     let handleImageDownload = (gd: PlotlyHTMLElement) =>
       toImage(gd, {
-        format: 'svg',
+        format: options.imgFormat,
         width: options.exportWidth || width,
         height: options.exportHeight || height,
         scale: options.resScale,

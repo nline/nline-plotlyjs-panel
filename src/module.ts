@@ -18,6 +18,20 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         path: 'yamlMode',
         defaultValue: true,
       })
+      .addSelect({
+        name: 'Image format',
+        description: 'File type of exported image',
+        settings: {
+          options: [
+            { value: 'svg', label: 'SVG' },
+            { value: 'png', label: 'PNG' },
+            { value: 'jpeg', label: 'JPG' },
+            { value: 'webp', label: 'WebP' },
+          ],
+        },
+        path: 'imgFormat',
+        defaultValue: 'png',
+      })
       .addNumberInput({
         name: 'Exported image width',
         description: 'Defined width of exported image',

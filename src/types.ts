@@ -1,5 +1,6 @@
 export interface SimpleOptions {
   yamlMode: boolean;
+  imgFormat: 'svg' | 'png' | 'jpeg' | 'webp';
   exportWidth: number | null;
   exportHeight: number | null;
   resScale: number;
@@ -58,6 +59,7 @@ export const base: SimpleBase = {
 // Defaults that Plotly begins with as an example
 export const inits: SimpleOptions = {
   yamlMode: true,
+  imgFormat: 'png',
   exportWidth: null,
   exportHeight: null,
   resScale: 2,
