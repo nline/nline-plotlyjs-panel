@@ -63,10 +63,13 @@ export const SimplePanel = React.memo(
       }).then((data: any) => saveAs(data, title));
 
     // Add convenience function for matching UTC data to timezone
-    const tz = timeZone === 'browser' ? Intl.DateTimeFormat().resolvedOptions().timeZone : timeZone;
-    const offset = dayjs().tz(tz).utcOffset() * 60 * 1000;
-    const matchTimezone = (timeStamps: number[]) => {
-      return timeStamps.map((ts: number) => ts - offset);
+    const local = dayjs.tz.guess();
+    const matchTimezone = (timeStamps: Int32Array, correct = true) => {
+      const tz = timeZone === 'browser' ? local : timeZone;
+      const baseOffset = correct ? 0 : dayjs().tz(local).utcOffset();
+      const offset = (dayjs().tz(tz).utcOffset() - baseOffset) * 60 * 1000;
+
+      return timeStamps.map((ts) => ts - offset);
     };
 
     const context = {
@@ -166,6 +169,7 @@ export const SimplePanel = React.memo(
           </div>
         ) : (
           <Plot
+            divId="plot"
             style={{ width: '100%', height: '100%' }}
             data={data}
             frames={parameters.frames ? merge(frames, parameters.frames, { arrayMerge: combineMerge }) : frames}
