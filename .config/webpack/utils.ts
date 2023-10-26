@@ -2,7 +2,6 @@ import fs from 'fs';
 import process from 'process';
 import os from 'os';
 import path from 'path';
-import util from 'util';
 import { glob } from 'glob';
 import { SOURCE_DIR } from './constants';
 

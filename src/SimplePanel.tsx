@@ -46,7 +46,7 @@ const emptyData = (data: any) => {
 
 const Plot = createPlotlyComponent(Plotly);
 
-interface Props extends PanelProps<SimpleOptions> {}
+interface Props extends PanelProps<SimpleOptions>, Record<string, any> {}
 
 export const SimplePanel = React.memo(
   (props: Props) => {
@@ -190,10 +190,10 @@ export const SimplePanel = React.memo(
       </div>
     );
   },
-  (prevProps, nextProps) => {
+  (prevProps: Props, nextProps: Props) => {
     // Only render on these conditions
-    const memoFields = ['options', 'width', 'height', 'data', 'timeRange', 'timeZone', 'title'];
-    return (memoFields as Array<keyof Props>).every((prop) => _.isEqual(prevProps[prop], nextProps[prop]));
+    const memoFields = ['options', 'width', 'height', 'data', 'timeRange', 'timeZone', 'title'] as any[];
+    return memoFields.every((prop) => _.isEqual(prevProps[prop], nextProps[prop]));
   }
 );
 
