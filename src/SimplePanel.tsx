@@ -64,11 +64,14 @@ export const SimplePanel = React.memo(
 
     // Add convenience function for matching UTC data to timezone
     const local = dayjs.tz.guess();
-    const matchTimezone = (timeStamps: Int32Array, correct = true) => {
+    const matchTimezone = (timeStamps: Int32Array) => {
       const tz = timeZone === 'browser' ? local : timeZone;
-      const baseOffset = correct ? 0 : dayjs().tz(local).utcOffset();
-      const offset = (dayjs().tz(tz).utcOffset() - baseOffset) * 60 * 1000;
+      const localOffset = dayjs().tz(local).utcOffset();
+      const dashOffset = dayjs().tz(tz).utcOffset();
 
+      // We need to reverse the offset that Plotly assigns
+      // And then consider the dashboard timezone offset
+      const offset = (localOffset - dashOffset) * 60 * 1000;
       return timeStamps.map((ts) => ts - offset);
     };
 
@@ -86,7 +89,7 @@ export const SimplePanel = React.memo(
 
     // Convert time column if selected
     let prcData = props.data;
-    const timeColExists = prcData.series[0].fields.some((f) => f.name === options.timeCol);
+    const timeColExists = prcData.series?.[0]?.fields?.some((f) => f.name === options.timeCol) || false;
     if (timeColExists) {
       prcData = correctTimeCol(props.data);
     }

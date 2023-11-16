@@ -34,3 +34,4 @@ nline-plotlyjs-panel-*.zip.md5
 dist/
 .trunk/
 keys.env
+.eslintcache

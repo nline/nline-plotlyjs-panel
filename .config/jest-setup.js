@@ -22,4 +22,4 @@ Object.defineProperty(global, 'matchMedia', {
   })),
 });
 
-HTMLCanvasElement.prototype.getContext = () => { };
+HTMLCanvasElement.prototype.getContext = () => {};
