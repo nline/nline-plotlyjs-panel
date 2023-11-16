@@ -60,7 +60,7 @@ export const SimplePanel = React.memo(
         width: options.exportWidth || width,
         height: options.exportHeight || height,
         scale: options.resScale,
-      }).then((data: any) => saveAs(data, title));
+      }).then((data) => saveAs(data, title));
 
     // Add convenience function for matching UTC data to timezone
     const local = dayjs.tz.guess();
@@ -71,6 +71,25 @@ export const SimplePanel = React.memo(
 
       return timeStamps.map((ts) => ts - offset);
     };
+
+    // Column timezone drop down to select time
+    const correctTimeCol = (data: any) => {
+      let cloneData = _.cloneDeep(data);
+      let d = cloneData.series[0].fields;
+      let index = d.findIndex((f: any) => f.name === options.timeCol);
+
+      if (index !== -1) {
+        cloneData.series[0].fields[index].values = matchTimezone(d[index].values);
+        return cloneData;
+      }
+    };
+
+    // Convert time column if selected
+    let prcData = props.data;
+    const timeColExists = prcData.series[0].fields.some((f) => f.name === options.timeCol);
+    if (timeColExists) {
+      prcData = correctTimeCol(props.data);
+    }
 
     const context = {
       __from: replaceVariables('$__from'),
@@ -100,10 +119,10 @@ export const SimplePanel = React.memo(
     let lines: any;
     let known_err: any;
     try {
-      if (props.options.script !== '' && props.data.state !== 'Error') {
+      if (props.options.script !== '' && prcData.state !== 'Error') {
         // What to pass into the script context
         const parameterValues = {
-          data: props.data,
+          data: prcData,
           variables: context,
           parameters,
           timeZone,

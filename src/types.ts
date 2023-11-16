@@ -4,6 +4,7 @@ export interface SimpleOptions {
   exportWidth: number | null;
   exportHeight: number | null;
   resScale: number;
+  timeCol: string;
   title: string;
   allData: object;
   data: any[];
@@ -63,6 +64,7 @@ export const inits: SimpleOptions = {
   exportWidth: null,
   exportHeight: null,
   resScale: 2,
+  timeCol: '',
   title: 'Plotly panel',
   allData: {},
   data: [],

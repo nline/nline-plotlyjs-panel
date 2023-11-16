@@ -1,5 +1,5 @@
-import { PanelPlugin } from '@grafana/data';
 import { SimpleOptions, inits, base } from './types';
+import { PanelPlugin, FieldOverrideContext, getFieldDisplayName } from '@grafana/data';
 // Import an entire module for side effects only, without importing anything.
 // This runs the module's global code, but doesn't actually import any values.
 // It sets the global variable for Plotly before loading plotly.js
@@ -47,6 +47,31 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         description: 'Factor of exported image resolution (may cause odd spacing)',
         path: 'resScale',
         defaultValue: 2,
+      })
+      .addSelect({
+        name: 'Timezone correction',
+        description: 'Time column used to correct data received by Plotly into the correct timezone',
+        path: 'timeCol',
+        defaultValue: '',
+        settings: {
+          allowCustomValue: true,
+          options: [],
+          getOptions: async (context: FieldOverrideContext) => {
+            const options = [
+              { value: '', label: 'No correction' },
+            ];
+            if (context && context.data) {
+              for (const frame of context.data) {
+                for (const field of frame.fields) {
+                  const name = getFieldDisplayName(field, frame, context.data);
+                  const value = name;
+                  options.push({ value, label: name });
+                }
+              }
+            }
+            return Promise.resolve(options);
+          },
+        },
       })
       .addCustomEditor({
         id: 'allData',
