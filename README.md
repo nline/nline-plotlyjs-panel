@@ -27,9 +27,9 @@ The _Data_, _Layout_ and _Config_ fields match the required objects described in
 
 Data provided by the data source can be transformed via a user-defined script before being delivered to the Plotly chart. This `script` section includes a few implicit variables that can be used:
 
-- `data`: Data returned by the datasource query. See the example below for the object's schema.
-- `variables`: Object that contains [Grafana's dashboard variables](https://grafana.com/docs/grafana/latest/variables/) available in the current dashboard (user variables as well as a few global variables: `__from`, `__to`, `__interval` and `__interval_ms`).
-- `parameters`: The panel's data, layout, and config objects. This may be helpful in the case of applying static properties from the data panel (as one item rather than an array) across many traces via something like a merge.
+- `data` - Data returned by the datasource query. See the example below for the object's schema.
+- `variables` - Object that contains [Grafana's dashboard variables](https://grafana.com/docs/grafana/latest/variables/) available in the current dashboard (user variables as well as a few global variables: `__from`, `__to`, `__interval` and `__interval_ms`).
+- `parameters` - The panel's data, layout, and config objects. This may be helpful in the case of applying static properties from the data panel (as one item rather than an array) across many traces via something like a merge.
 - `timeZone` - The dashboard timezone
 - `dayjs` - A [tiny timezone library](https://github.com/iamkun/dayjs)
 - `matchTimezone` - A convenience function to wrap around timeseries data to convert data to the user's timezone.
