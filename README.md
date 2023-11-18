@@ -1,12 +1,12 @@
 # Plotly Panel
 
-> ⚠️ If you are on Grafana 10, the syntax to access the fields from the `data` variable is different! Use `data.series[0].fields[0].values` without the `buffer` property as it doesn't exist anymore.
+> ⚠️ If you are on Grafana 10, the syntax to access the fields from the `data` variable is different! Use `data.series[0].fields[0].values` without the `buffer` property as it doesn't exist anymore. Before 10, there are stored with the `.buffer` property.
 
 Render charts with [Plotly.js](https://plotly.com/javascript/).
 
-- Export plot as an image (with resolution tuning)
+- Export plot as an image (with specified resolution)
 - YAML/JSON support
-- Timezone adjustment
+- Automatic/manual timezone adjustment
 - Apply `Data` configs across traces
 - Expandable code editors
 - Grafana variable substitution
@@ -23,13 +23,16 @@ This plugin began as maintained fork of [ae3e-plotly-panel](https://github.com/a
 
 ## Getting started
 
-The _Data_, _Layout_ and _Config_ fields match the common parameters described in [Plotly's documentation](https://plotly.com/javascript/plotlyjs-function-reference/). They must be in JSON format as described [by this schema](https://raw.githubusercontent.com/plotly/plotly.js/master/dist/plot-schema.json), however they are parsed and interpreted as YAML for ease of use in development. These fields are consumed by Plotly `{ data: [traces], layout: layout, config: config }` and produce a Plotly graph within the panel. They can be collapsed, expanded (by dragging) and used to format the contents (like VSCode).
+The _Data_, _Layout_ and _Config_ fields match the required objects described in [Plotly's documentation](https://plotly.com/javascript/plotlyjs-function-reference/). They must be in JSON format and structured [by this schema](https://raw.githubusercontent.com/plotly/plotly.js/master/dist/plot-schema.json). However, they can be parsed and interpreted as YAML for ease of use in development (see YAML/JSON toggle). These fields are consumed by Plotly as `{ data: [traces], layout: layout, config: config }` and produce a Plotly graph within the panel. The panel itself can be collapsed, expanded (by dragging) and used to format the contents (like VSCode).
 
-Data provided by the data source can be transformed via a user-defined script before being delivered to the Plotly chart. This `script` section includes 2 implicit variables that can be used:
+Data provided by the data source can be transformed via a user-defined script before being delivered to the Plotly chart. This `script` section includes a few implicit variables that can be used:
 
 - `data`: Data returned by the datasource query. See the example below for the object's schema.
 - `variables`: Object that contains [Grafana's dashboard variables](https://grafana.com/docs/grafana/latest/variables/) available in the current dashboard (user variables as well as a few global variables: `__from`, `__to`, `__interval` and `__interval_ms`).
 - `parameters`: The panel's data, layout, and config objects. This may be helpful in the case of applying static properties from the data panel (as one item rather than an array) across many traces via something like a merge.
+- `timeZone` - The dashboard timezone
+- `dayjs` - A [tiny timezone library](https://github.com/iamkun/dayjs)
+- `matchTimezone` - A convenience function to wrap around timeseries data to convert data to the user's timezone.
 
 The script must return an object with one or more of the following properties:
 
@@ -45,6 +48,10 @@ For example:
 ```javascript
 let x = data.series[0].fields[0].values;
 let y = data.series[0].fields[1].values;
+
+// If you can reference your SQL column names, this might be easier
+// let fields = Object.fromEntries(data.series[0].fields.map((x) => [x.name, x.values]));
+// x, y = fields['time'], fields['data'] // where 'time' and 'data' are column names
 
 // Switch from UTC to the dashboard time zone
 x = matchTimezone(x);
