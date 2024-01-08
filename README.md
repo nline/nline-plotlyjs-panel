@@ -23,7 +23,7 @@ This plugin began as maintained fork of [ae3e-plotly-panel](https://github.com/a
 
 ## Getting started
 
-The _Data_, _Layout_ and _Config_ fields match the required objects described in [Plotly's documentation](https://plotly.com/javascript/plotlyjs-function-reference/). They must be in JSON format and structured [by this schema](https://raw.githubusercontent.com/plotly/plotly.js/master/dist/plot-schema.json). However, they can be parsed and interpreted as YAML for ease of use in development (see YAML/JSON toggle). These fields are consumed by Plotly as `{ data: [traces], layout: layout, config: config }` and produce a Plotly graph within the panel. The panel itself can be collapsed, expanded (by dragging) and used to format the contents (like VSCode).
+The **data**, **layout**, and **config** fields are required objects described in [Plotly's documentation](https://plotly.com/javascript/plotlyjs-function-reference/). They must be in JSON format and structured [by this schema](https://raw.githubusercontent.com/plotly/plotly.js/master/dist/plot-schema.json). However, they can be parsed and interpreted as YAML for ease of use in development (see YAML/JSON toggle). These fields are consumed by Plotly as `{ data: [traces], layout: layout, config: config }` and produce a Plotly graph within the panel.
 
 Data provided by the data source can be transformed via a user-defined script before being delivered to the Plotly chart. This `script` section includes a few implicit variables that can be used:
 
@@ -42,6 +42,8 @@ The script must return an object with one or more of the following properties:
 - `frames`
 
 **Note:** The `data` and `frames` properties are arrays of dictionaries/JSON and must begin with a dash (as per YAML specs) or added as an array in the return of the function. However, the `data` field can be an object in which case it will apply the parameters to all of the returned traces in the _Script_ section.
+
+**Timezones** can be automatically converted to the user's dashboard timezone by selecting the time column with the _Timezone correction_ option.
 
 For example:
 
