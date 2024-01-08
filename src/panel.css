@@ -1,4 +1,4 @@
-[aria-label='Code editor container'] {
+.react-resizable > div:first-child {
   height: 100%;
 }
 .react-resizable-handle {
