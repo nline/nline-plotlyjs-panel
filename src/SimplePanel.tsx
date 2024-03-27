@@ -79,6 +79,19 @@ const emptyData = (data: any) => {
   return data.every((obj: any) => obj !== null && obj.hasOwnProperty('series') && obj.series.length === 0);
 };
 
+const handleImageDownload = (
+  gd: PlotlyHTMLElement,
+  options: SimpleOptions,
+  title: string,
+  width: number,
+  height: number
+) =>
+  toImage(gd, {
+    format: options.imgFormat,
+    width: options.exportWidth || width,
+    height: options.exportHeight || height,
+    scale: options.resScale,
+  }).then((data) => saveAs(data, title));
 const Plot = createPlotlyComponent(Plotly);
 
 interface Props extends PanelProps<SimpleOptions>, Record<string, any> {}
@@ -89,15 +102,6 @@ export const SimplePanel = React.memo(
     const { options, replaceVariables, width, height, timeZone } = props;
     let issueMsg = '';
     let issueLine: number | null = null;
-
-    // Image export for Plotly download issues
-    let handleImageDownload = (gd: PlotlyHTMLElement) =>
-      toImage(gd, {
-        format: options.imgFormat,
-        width: options.exportWidth || width,
-        height: options.exportHeight || height,
-        scale: options.resScale,
-      }).then((data) => saveAs(data, title));
 
     // Add convenience function for matching UTC data to timezone
     const local = dayjs.tz.guess();
@@ -157,7 +161,6 @@ export const SimplePanel = React.memo(
     parameters = { data: data, layout: layout, config: config };
 
     let lines: any;
-    let known_err: any;
     try {
       if (props.options.script !== '' && prcData.state !== 'Error') {
         // What to pass into the script context
@@ -199,7 +202,7 @@ export const SimplePanel = React.memo(
           name: 'toImageGrafana',
           title: 'Export plot as an image',
           icon: Icons.camera,
-          click: handleImageDownload,
+          click: (gd: PlotlyHTMLElement) => handleImageDownload(gd, options, title, width, height),
         },
       ],
       modeBarButtonsToRemove: ['toImage'],
