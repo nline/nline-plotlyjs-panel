@@ -14,6 +14,35 @@ import timezone from 'dayjs/plugin/timezone';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+interface ErrorMessageProps {
+  message: string;
+  line?: number | null;
+  code?: boolean;
+}
+
+const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, line, code = true }) => (
+  <div
+    style={{
+      display: 'flex',
+      flexDirection: 'column',
+      position: 'fixed',
+      height: '100%',
+      width: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+  >
+    {code ? (
+      <>
+        <h4 style={{ textAlign: 'center' }}>Issue in script {line ? ` (line ${line})` : ''}</h4>
+        <code>{message}</code>
+      </>
+    ) : (
+      <h4 style={{ textAlign: 'center' }}>{message}</h4>
+    )}
+  </div>
+);
+
 const combineMerge = (target: any, source: any, options: any) => {
   const destination = target.slice();
   source.forEach((item: any, index: any) => {
@@ -52,6 +81,8 @@ export const SimplePanel = React.memo(
   (props: Props) => {
     // Get all variables
     const { options, replaceVariables, width, height, timeZone } = props;
+    let issueMsg = '';
+    let issueLine: number | null = null;
 
     // Image export for Plotly download issues
     let handleImageDownload = (gd: PlotlyHTMLElement) =>
@@ -136,27 +167,23 @@ export const SimplePanel = React.memo(
         parameters = f(...Object.values(parameterValues));
 
         if (!parameters || typeof parameters === 'undefined') {
-          known_err = true;
-          throw new Error('Script must return values!');
+          issueMsg = 'Script must return values!';
+          return <ErrorMessage message={issueMsg} />;
         }
       } else if (props.options.script === '') {
-        known_err = true;
-        throw new Error('Please define a valid transformation within the Script Editor panel');
+        issueMsg = 'Please define a valid transformation within the Script Editor panel';
+        return <ErrorMessage message={issueMsg} />;
       }
     } catch (e: any) {
-      if (!known_err) {
-        let matches = e.stack.match(/anonymous>:.*\)/m) || e.stack.match(/Function:.*$/m);
-        let match: any = matches ? matches[0].slice(0, -1) : null;
+      console.log(e);
 
-        lines = match ? match.split(':') : null;
+      let matches = e.stack.match(/anonymous>:.*\)/m) || e.stack.match(/Function:.*$/m);
+      let match: any = matches ? matches[0].slice(0, -1) : null;
+      lines = match ? match.split(':') : null;
 
-        const msg = `Issue in Script:\n${e.toString()}${
-          lines ? ` - line ${parseInt(lines[1], 10) - 2}:${lines[2]}` : ''
-        }`;
-        throw new Error(msg);
-      } else {
-        throw e;
-      }
+      issueLine = lines ? parseInt(lines[1], 10) - 2 : null;
+      issueMsg = e.toString();
+      return <ErrorMessage message={issueMsg} line={issueLine} />;
     }
 
     // Set defaults
@@ -183,33 +210,34 @@ export const SimplePanel = React.memo(
       }
     }
 
+    if (emptyData(data)) {
+      issueMsg = 'No data in selected range or source';
+      return <ErrorMessage message={issueMsg} code={false} />;
+    }
+
     return (
-      <div>
-        {emptyData(data) ? (
-          <div style={{ display: 'flex', position: 'fixed', height: '100%', width: '100%', justifyContent: 'center' }}>
-            <h4 style={{ margin: 'auto 1em' }}>No data in selected range or source</h4>
-          </div>
-        ) : (
-          <Plot
-            divId="plot"
-            style={{ width: '100%', height: '100%' }}
-            data={data}
-            frames={parameters.frames ? merge(frames, parameters.frames, { arrayMerge: combineMerge }) : frames}
-            layout={parameters.layout ? merge(layout, parameters.layout) : layout}
-            config={parameters.config ? merge(config, parameters.config) : config}
-            onInitialized={(figure, graphDiv) => {
-              Plotly.react(graphDiv, figure.data, figure.layout);
-            }}
-            useResizeHandler={true}
-            onClick={(data) => {
-              // What to pass into the onclick context
-              const parameterValues = { data, locationService, getTemplateSrv };
-              const f = new Function(...Object.keys(parameterValues), onclick);
-              f(...Object.values(parameterValues));
-            }}
-          />
-        )}
-      </div>
+      <>
+        (
+        <Plot
+          divId="plot"
+          style={{ width: '100%', height: '100%' }}
+          data={data}
+          frames={parameters.frames ? merge(frames, parameters.frames, { arrayMerge: combineMerge }) : frames}
+          layout={parameters.layout ? merge(layout, parameters.layout) : layout}
+          config={parameters.config ? merge(config, parameters.config) : config}
+          onInitialized={(figure, graphDiv) => {
+            Plotly.react(graphDiv, figure.data, figure.layout);
+          }}
+          useResizeHandler={true}
+          onClick={(data) => {
+            // What to pass into the onclick context
+            const parameterValues = { data, locationService, getTemplateSrv };
+            const f = new Function(...Object.keys(parameterValues), onclick);
+            f(...Object.values(parameterValues));
+          }}
+        />
+        )
+      </>
     );
   },
   (prevProps: Props, nextProps: Props) => {
