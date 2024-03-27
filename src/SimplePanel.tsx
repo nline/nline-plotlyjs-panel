@@ -20,28 +20,34 @@ interface ErrorMessageProps {
   code?: boolean;
 }
 
-const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, line, code = true }) => (
-  <div
-    style={{
-      display: 'flex',
-      flexDirection: 'column',
-      position: 'fixed',
-      height: '100%',
-      width: '100%',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}
-  >
-    {code ? (
-      <>
-        <h4 style={{ textAlign: 'center' }}>Issue in script {line ? ` (line ${line})` : ''}</h4>
-        <code>{message}</code>
-      </>
-    ) : (
-      <h4 style={{ textAlign: 'center' }}>{message}</h4>
-    )}
-  </div>
-);
+const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, line, code = true }) => {
+  if (code) {
+    console.error(message);
+  }
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'fixed',
+        height: '100%',
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      {code ? (
+        <>
+          <h4 style={{ textAlign: 'center' }}>Issue in script {line ? ` (line ${line})` : ''}</h4>
+          <code>{message}</code>
+        </>
+      ) : (
+        <h4 style={{ textAlign: 'center' }}>{message}</h4>
+      )}
+    </div>
+  );
+};
 
 const combineMerge = (target: any, source: any, options: any) => {
   const destination = target.slice();
@@ -175,8 +181,6 @@ export const SimplePanel = React.memo(
         return <ErrorMessage message={issueMsg} />;
       }
     } catch (e: any) {
-      console.log(e);
-
       let matches = e.stack.match(/anonymous>:.*\)/m) || e.stack.match(/Function:.*$/m);
       let match: any = matches ? matches[0].slice(0, -1) : null;
       lines = match ? match.split(':') : null;
