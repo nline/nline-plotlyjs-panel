@@ -224,7 +224,6 @@ export const SimplePanel = React.memo(
 
     return (
       <>
-        (
         <Plot
           divId="plot"
           style={{ width: '100%', height: '100%' }}
@@ -243,7 +242,6 @@ export const SimplePanel = React.memo(
             f(...Object.values(parameterValues));
           }}
         />
-        )
       </>
     );
   },
