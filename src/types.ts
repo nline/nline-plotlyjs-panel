@@ -30,12 +30,6 @@ export type EditorLanguageType = 'javascript' | 'html' | 'json' | 'yaml' | undef
 const defaultLayout = {
   font: {
     family: 'Inter, Helvetica, Arial, sans-serif',
-    color: 'rgb(25,27,31)',
-  },
-  paper_bgcolor: 'white',
-  plot_bgcolor: 'white',
-  hoverlabel: {
-    bgcolor: 'white',
   },
   xaxis: {
     type: 'date',
@@ -43,8 +37,17 @@ const defaultLayout = {
     automargin: true,
   },
   yaxis: {
-    automargin: true,
     autorange: true,
+    automargin: true,
+  },
+  title: {
+    automargin: true,
+  },
+  margin: {
+    l: 0,
+    r: 0,
+    b: 0,
+    t: 0,
   },
 };
 
