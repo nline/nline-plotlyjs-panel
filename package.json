@@ -12,7 +12,7 @@
     "lint:fix": "yarn run lint --fix",
     "md5": "md5 nline-plotlyjs-panel-%npm_package_version%.zip nline-plotlyjs-panel-%npm_package_version%.zip.md5",
     "package": "./package.sh",
-    "release": "tag=$(git describe --abbrev=0) && gh release upload ${tag} ./nline-plotlyjs-panel-${tag}.zip ./nline-plotlyjs-panel-${tag}.zip.md5 --clobber",
+    "release": "tag=$(git describe --abbrev=0) && gh release create ${tag} ./nline-plotlyjs-panel-${tag}.zip ./nline-plotlyjs-panel-${tag}.zip.md5",
     "server": "docker-compose up --build",
     "sign": "npx --yes @grafana/sign-plugin@latest",
     "test": "jest --watch --onlyChanged",

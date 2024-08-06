@@ -38,6 +38,7 @@ export const useChartConfig = (
     let layout = fmtValues(mergedLayout, replaceVariables);
 
     let data = fmtValues(options.data ?? base.data, replaceVariables);
+    const allData = fmtValues(options.allData ?? null, replaceVariables);
     let config = fmtValues(options.config ?? base.config, replaceVariables);
     let frames = fmtValues(options.frames ?? base.frames, replaceVariables);
 
@@ -50,11 +51,11 @@ export const useChartConfig = (
 
     if (options.allData != null && data != null) {
       if (Array.isArray(data)) {
-        data = data.map((item: any) => merge(options.allData, item, { arrayMerge: (_, sourceArray) => sourceArray }));
+        data = data.map((item: any) => merge(allData, item, { arrayMerge: (_, sourceArray) => sourceArray }));
       }
     }
 
     return { data, layout, config, frames };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options, evaluatedScript, replaceVariables, width, height, theme, data]);
 };
