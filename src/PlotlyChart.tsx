@@ -7,6 +7,8 @@ const Plot: React.ComponentType<any> = createPlotlyComponent(Plotly);
 
 interface ExtendedConfig extends Partial<Plotly.Config> {
   imgFormat?: 'png' | 'jpeg' | 'webp' | 'svg';
+  exportWidth?: number | null;
+  exportHeight?: number | null;
   resScale?: number;
 }
 
@@ -33,8 +35,8 @@ export const PlotlyChart = forwardRef<any, PlotlyChartProps>(
       const refElement = (ref as React.RefObject<any>)?.current?.el;
       toImage(refElement, {
         format: config.imgFormat || 'png',
-        width: currentWidth,
-        height: currentHeight,
+        width: config.exportWidth || currentWidth,
+        height: config.exportHeight || currentHeight,
         scale: config.resScale || 2,
       }).then((data) => saveAs(data, `${title}.${config.imgFormat || 'png'}`));
     }, [config, title, getCurrentDimensions, ref]);

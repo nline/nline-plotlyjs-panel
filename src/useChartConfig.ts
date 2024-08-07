@@ -55,7 +55,15 @@ export const useChartConfig = (
       }
     }
 
-    return { data, layout, config, frames };
+    const updatedConfig = {
+      ...config,
+      imgFormat: options.imgFormat,
+      exportWidth: options.exportWidth,
+      exportHeight: options.exportHeight,
+      resScale: options.resScale,
+    };
+
+    return { data, layout, config: updatedConfig, frames };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options, evaluatedScript, replaceVariables, width, height, theme, data]);
 };
