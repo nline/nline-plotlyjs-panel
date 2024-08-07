@@ -19,8 +19,7 @@ export const PanelOptionCode: React.FC<Props> = React.memo(({ value, item, onCha
         const newValue = language === 'yaml' || language === 'json' ? YAML.load(code) : code;
         onChange(newValue);
       } catch (error) {
-        console.error('Error parsing code:', error);
-        onChange(code); // Preserve the original input in case of parsing error
+        onChange(code);
       }
     },
     [language, onChange]
@@ -30,7 +29,6 @@ export const PanelOptionCode: React.FC<Props> = React.memo(({ value, item, onCha
     try {
       return typeof value === 'string' ? value : yaml ? YAML.dump(value, null, 2) : JSON.stringify(value, null, 2);
     } catch (error) {
-      console.error('Error formatting content:', error);
       return String(value);
     }
   }, [value, yaml]);
@@ -39,7 +37,6 @@ export const PanelOptionCode: React.FC<Props> = React.memo(({ value, item, onCha
     try {
       return yaml ? YAML.dump(item?.settings?.initValue, null, 2) : JSON.stringify(item?.settings?.initValue, null, 2);
     } catch (error) {
-      console.error('Error formatting default value:', error);
       return String(item?.settings?.initValue);
     }
   }, [yaml, item?.settings?.initValue]);
