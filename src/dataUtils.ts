@@ -79,5 +79,5 @@ export const emptyData = (data: any): { isEmpty: boolean; message: string } => {
     }
   }
 
-  return { isEmpty: true, message: 'No trace found with values' };
+  return { isEmpty: true, message: 'No trace found with data' };
 };

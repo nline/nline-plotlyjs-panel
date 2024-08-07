@@ -1,9 +1,7 @@
-import React, { useCallback, forwardRef } from 'react';
+import React, { useCallback, forwardRef, useEffect, useRef, useMemo } from 'react';
 import Plotly, { toImage } from 'plotly.js-dist-min';
 import createPlotlyComponent from 'react-plotly.js/factory';
 import { saveAs } from 'file-saver';
-
-const Plot: React.ComponentType<any> = createPlotlyComponent(Plotly);
 
 interface ExtendedConfig extends Partial<Plotly.Config> {
   imgFormat?: 'png' | 'jpeg' | 'webp' | 'svg';
@@ -23,37 +21,49 @@ interface PlotlyChartProps {
   title: string;
 }
 
+const Plot: React.ComponentType<any> = createPlotlyComponent(Plotly);
+
 export const PlotlyChart = forwardRef<any, PlotlyChartProps>(
   ({ data, layout, config, frames, width, height, onClick, title }, ref) => {
-    const getCurrentDimensions = useCallback(() => {
-      const { clientWidth, clientHeight } = (ref as React.RefObject<any>)?.current?.el ?? {};
-      return { width: clientWidth ?? width, height: clientHeight ?? height };
-    }, [ref, width, height]);
+    const latestConfigRef = useRef(config);
+
+    useEffect(() => {
+      latestConfigRef.current = config;
+    }, [config]);
 
     const handleImageDownload = useCallback(() => {
-      const { width: currentWidth, height: currentHeight } = getCurrentDimensions();
-      const refElement = (ref as React.RefObject<any>)?.current?.el;
-      toImage(refElement, {
-        format: config.imgFormat || 'png',
-        width: config.exportWidth || currentWidth,
-        height: config.exportHeight || currentHeight,
-        scale: config.resScale || 2,
-      }).then((data) => saveAs(data, `${title}.${config.imgFormat || 'png'}`));
-    }, [config, title, getCurrentDimensions, ref]);
+      const plotlyElement = (ref as React.RefObject<any>)?.current?.el;
+      if (plotlyElement) {
+        const currentLayout = plotlyElement.layout;
+        const currentConfig = latestConfigRef.current;
 
-    const updatedConfig: ExtendedConfig = {
-      ...config,
-      modeBarButtonsToAdd: [
-        {
-          name: 'toImageGrafana',
-          title: 'Export plot as an image',
-          icon: Plotly.Icons.camera,
-          click: handleImageDownload,
-        },
-      ],
-      modeBarButtonsToRemove: ['toImage'] as Plotly.ModeBarDefaultButtons[],
-      displaylogo: false,
-    };
+        const exportConfig = {
+          format: currentConfig.imgFormat || 'png',
+          width: currentConfig.exportWidth || currentLayout.width,
+          height: currentConfig.exportHeight || currentLayout.height,
+          scale: currentConfig.resScale || 2,
+        };
+
+        toImage(plotlyElement, exportConfig).then((data) => saveAs(data, `${title}.${exportConfig.format}`));
+      }
+    }, [ref, title]);
+
+    const updatedConfig = useMemo(
+      () => ({
+        ...config,
+        modeBarButtonsToAdd: [
+          {
+            name: 'toImageGrafana',
+            title: 'Export plot as an image',
+            icon: Plotly.Icons.camera,
+            click: handleImageDownload,
+          },
+        ],
+        modeBarButtonsToRemove: ['toImage'] as Plotly.ModeBarDefaultButtons[],
+        displaylogo: false,
+      }),
+      [config, handleImageDownload]
+    );
 
     return (
       <Plot
