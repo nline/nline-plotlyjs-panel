@@ -18,15 +18,25 @@ export const useScriptEvaluation = () => {
       setError(null); // Clear the error when successful
       return result;
     } catch (e: any) {
+      let lineNumber: any = 'unknown';
+      let line = '';
+
       const lines = script.split('\n');
-      let lineNumber = e.lineNumber || e.stack?.split('\n')[1]?.match(/:<(\d+):\d+>/)?.[1] || 'unknown';
-      if (typeof lineNumber === 'number' && lineNumber > 2) {
-        lineNumber -= 2;
+      if (e.stack) {
+        // Try to match line numbers for both Chrome and Firefox
+        const match = e.stack.match(/:(\d+):\d+/);
+        if (match) {
+          lineNumber = parseInt(match[1], 10);
+          // Adjust for the function wrapper
+          lineNumber = Math.max(1, lineNumber - 2);
+          line = lines[lineNumber - 1];
+        }
       }
+
       setError({
         message: e.message,
         lineNumber,
-        line: lines[lineNumber - 1] || '',
+        line: line,
       });
       return null;
     }

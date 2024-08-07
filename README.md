@@ -1,7 +1,5 @@
 # Plotly Panel
 
-> ⚠️ If you are on Grafana 10, the syntax to access the fields from the `data` variable is different! Use `data.series[0].fields[0].values` without the `buffer` property as it doesn't exist anymore. Before 10, there are stored with the `.buffer` property.
-
 Render charts with [Plotly.js](https://plotly.com/javascript/).
 
 - Export plot as an image (with specified resolution)
@@ -41,7 +39,10 @@ The script must return an object with one or more of the following properties:
 
 **Timezones** can be automatically converted to the user's dashboard timezone by selecting the time column with the _Timezone correction_ option.
 
-For example:
+### Changes post Grafana 10:
+> ⚠️ Prior to Grafana 10, the syntax to access the fields from the `data` variable was different. Use `data.series[0].fields[0].values.buffer`. Post 10, these arrays are stored without the `.buffer` property.
+
+## Example script:
 
 ```javascript
 let x = data.series[0].fields[0].values;
@@ -51,7 +52,7 @@ let y = data.series[0].fields[1].values;
 // let fields = Object.fromEntries(data.series[0].fields.map((x) => [x.name, x.values]));
 // x, y = fields['time'], fields['data'] // where 'time' and 'data' are column names
 
-// Switch from UTC to the dashboard time zone
+// Switch from UTC to the dashboard time zone or use "Timezone correction" and select the column
 x = matchTimezone(x);
 
 let series = {

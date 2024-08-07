@@ -27,7 +27,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ message, title = 'Er
     ) : (
       <>
         <p>Error on line {message.lineNumber}: <i>{message.message}</i></p>
-        <pre>{message.line}</pre>
+        {message.line && <pre>{message.line}</pre>}
       </>
     );
 
