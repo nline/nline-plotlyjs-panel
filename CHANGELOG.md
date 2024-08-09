@@ -2,12 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## [2.0.0] - 2024-08-07
+## [1.7.0] - 2024-08-07
 
 ### Changed
 
 - Major refactor with multiple fixes and improvements
-  - Image export reflects config
+  - Image export reflects all config options
   - Light/dark theme that matches Grafana
   - Updated theme colors
   - Better error display
