@@ -12,12 +12,6 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
   .setDataSupport({ annotations: true })
   .setPanelOptions((builder) => {
     return builder
-      .addBooleanSwitch({
-        name: 'Plotly mode',
-        description: 'Whether to edit in YAML or JSON',
-        path: 'yamlMode',
-        defaultValue: true,
-      })
       .addSelect({
         name: 'Image format',
         description: 'File type of exported image',
@@ -82,7 +76,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         category: ['Data Editor'],
         settings: {
           editorHeight: 150,
-          language: inits.yamlMode ? 'yaml' : 'json',
+          language: 'yaml',
           baseValue: base.allData,
           initValue: inits.allData,
         },
@@ -97,7 +91,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         category: ['Data Editor'],
         settings: {
           editorHeight: 150,
-          language: inits.yamlMode ? 'yaml' : 'json',
+          language: 'yaml',
           baseValue: base.data,
           initValue: inits.data,
         },
@@ -111,7 +105,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         editor: PanelOptionCode,
         category: ['Layout Editor'],
         settings: {
-          language: inits.yamlMode ? 'yaml' : 'json',
+          language: 'yaml',
           baseValue: base.layout,
           initValue: inits.layout,
         },
@@ -126,7 +120,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
         category: ['Config Editor'],
         settings: {
           editorHeight: 150,
-          language: inits.yamlMode ? 'yaml' : 'json',
+          language: 'yaml',
           baseValue: base.config,
           initValue: inits.config,
         },

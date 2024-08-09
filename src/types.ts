@@ -1,5 +1,4 @@
 export interface SimpleOptions {
-  yamlMode: boolean;
   imgFormat: 'svg' | 'png' | 'jpeg' | 'webp';
   exportWidth: number | null;
   exportHeight: number | null;
@@ -25,7 +24,7 @@ export interface SimpleBase {
 
 export type EditorCodeType = string | undefined;
 
-export type EditorLanguageType = 'javascript' | 'html' | 'json' | 'yaml' | undefined;
+export type EditorLanguageType = 'javascript' | 'html' | 'yaml' | undefined;
 
 const defaultLayout = {
   font: {
@@ -62,7 +61,6 @@ export const base: SimpleBase = {
 
 // Defaults that Plotly begins with as an example
 export const inits: SimpleOptions = {
-  yamlMode: true,
   imgFormat: 'png',
   exportWidth: null,
   exportHeight: null,
@@ -75,8 +73,9 @@ export const inits: SimpleOptions = {
   config: {},
   frames: [],
   script: `\
-// let x = data.series[0].fields[0].values;
-// let y = data.series[0].fields[1].values;
+// let series = data.series[0];
+// let x = series.fields[0].values.buffer || series.fields[0].values;
+//let y = series.fields[1].values.buffer || series.fields[1].values;
 // let trace = { x: x, y: y };
 // return { data: [trace] };
 return {}

@@ -17,7 +17,7 @@ Render charts with [Plotly.js](https://plotly.com/javascript/).
 
 ## Getting started
 
-The **data**, **layout**, and **config** fields are required objects described in [Plotly's documentation](https://plotly.com/javascript/plotlyjs-function-reference/). They must be in JSON format and structured [by this schema](https://raw.githubusercontent.com/plotly/plotly.js/master/dist/plot-schema.json). However, they can be parsed and interpreted as YAML for ease of use in development (see YAML/JSON toggle). These fields are consumed by Plotly as `{ data: [traces], layout: layout, config: config }` and produce a Plotly graph within the panel.
+The **data**, **layout**, and **config** fields are required objects described in [Plotly's documentation](https://plotly.com/javascript/plotlyjs-function-reference/). They must be in JSON format and structured [by this schema](https://raw.githubusercontent.com/plotly/plotly.js/master/dist/plot-schema.json). However, they can be parsed and interpreted as YAML or JSON for ease of use in development. These fields are consumed by Plotly as `{ data: [traces], layout: layout, config: config }` and produce a Plotly graph within the panel.
 
 Data provided by the data source can be transformed via a user-defined script before being delivered to the Plotly chart. This `script` section includes a few implicit variables that can be used:
 
@@ -35,18 +35,22 @@ The script must return an object with one or more of the following properties:
 - `config`
 - `frames`
 
-**Note:** The `data` and `frames` properties are arrays of dictionaries/JSON and must begin with a dash (as per YAML specs) or added as an array in the return of the function. However, the "Cross-trace Data" field can be an object in which case it will apply the parameters to all of the returned traces in the _Script_ section.
+**Note:** The `data` and `frames` properties are arrays of dictionaries/JSON and must begin with a dash (as per YAML specs) or added as an array in the return of the function. However, the "Cross-trace Data" field can be an object in which case it will apply the parameters to all of the returned traces in the _Script_ section. All objects get merged together with the script objects given priority. For example, `data` from script > `allData` > `data`.
 
 **Timezones** can be automatically converted to the user's dashboard timezone by selecting the time column with the _Timezone correction_ option.
 
 ### Changes post Grafana 10:
+
 > ⚠️ Prior to Grafana 10, the syntax to access the fields from the `data` variable was different. Use `data.series[0].fields[0].values.buffer`. Post 10, these arrays are stored without the `.buffer` property.
 
 ## Example script:
 
 ```javascript
-let x = data.series[0].fields[0].values;
-let y = data.series[0].fields[1].values;
+// Get the first series
+let series = data.series[0];
+// For buffer needed for Grafana < 10
+let x = series.fields[0].values.buffer || series.fields[0].values;
+let y = series.fields[1].values.buffer || series.fields[1].values;
 
 // If you can reference your SQL column names, this might be easier
 // let fields = Object.fromEntries(data.series[0].fields.map((x) => [x.name, x.values]));
