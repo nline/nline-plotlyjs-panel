@@ -1,6 +1,6 @@
 {
   "name": "nline-plotlyjs-panel",
-  "version": "1.6.7",
+  "version": "1.7.0",
   "description": "Grafana Plotly Plugin",
   "scripts": {
     "build": "webpack -c ./.config/webpack/webpack.config.ts --env production",
