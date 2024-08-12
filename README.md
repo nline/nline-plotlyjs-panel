@@ -14,6 +14,7 @@ Render charts with [Plotly.js](https://plotly.com/javascript/) in Grafana.
 - Robust error handling
 - ... and more!
 
+See the [changelog](./CHANGELOG.md) for what has changed in recent updates.
 
 ## Getting started
 
