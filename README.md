@@ -68,6 +68,10 @@ The script must return an object with one or more of the following properties:
 ## Example script:
 
 ```javascript
+// If there's no data, return early
+if ((data.series.length > 0) {
+  return {};
+}
 // Get the first series
 let series = data.series[0];
 // For buffer needed for Grafana < 10
