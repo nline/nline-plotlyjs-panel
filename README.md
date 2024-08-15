@@ -26,29 +26,17 @@ The **data**, **layout**, and **config** fields are required objects described i
 
 Data provided by the data source can be transformed via a user-defined script before being delivered to the Plotly chart. This `script` section includes a few implicit variables that can be used:
 
-#### `data`
+- **`data`**: Data returned by the datasource query. See the example below for the object's schema.
 
-Data returned by the datasource query. See the example below for the object's schema.
+- **`variables`**: Object that contains [Grafana's dashboard variables](https://grafana.com/docs/grafana/latest/variables/) available in the current dashboard (user variables as well as a few global variables: `__from`, `__to`, `__interval` and `__interval_ms`).
 
-#### `variables`
+- **`parameters`**: The panel's data, layout, and config objects. This may be helpful in the case of applying static properties from the data panel (as one item rather than an array) across many traces via something like a merge.
 
-Object that contains [Grafana's dashboard variables](https://grafana.com/docs/grafana/latest/variables/) available in the current dashboard (user variables as well as a few global variables: `__from`, `__to`, `__interval` and `__interval_ms`).
+- **`timeZone`**: The dashboard timezone
 
-#### `parameters`
+- **`dayjs`**: A [tiny timezone library](https://github.com/iamkun/dayjs)
 
-The panel's data, layout, and config objects. This may be helpful in the case of applying static properties from the data panel (as one item rather than an array) across many traces via something like a merge.
-
-#### `timeZone`
-
-The dashboard timezone
-
-#### `dayjs`
-
-A [tiny timezone library](https://github.com/iamkun/dayjs)
-
-#### `matchTimezone`
-
-A convenience function to wrap around timeseries data to convert data to the user's timezone.
+- **`matchTimezone`**: A convenience function to wrap around timeseries data to convert data to the user's timezone. Timezones can be automatically converted to the user's dashboard timezone by selecting the time column with the **Timezone correction** option.
 
 The script must return an object with one or more of the following properties:
 
@@ -59,8 +47,6 @@ The script must return an object with one or more of the following properties:
 
 **Note:** The `data` and `frames` properties are arrays of dictionaries/JSON and must begin with a dash (as per YAML specs) or added as an array in the return of the function. However, the "Cross-trace Data" field can be an object in which case it will apply the parameters to all of the returned traces in the _Script_ section. All objects get merged together with the script objects given priority. For example, `data` from script > `allData` > `data`.
 
-**Timezones** can be automatically converted to the user's dashboard timezone by selecting the time column with the _Timezone correction_ option.
-
 ### Changes post Grafana 10:
 
 > ⚠️ Prior to Grafana 10, the syntax to access the fields from the `data` variable was different. Use `data.series[0].fields[0].values.buffer`. Post 10, these arrays are stored without the `.buffer` property.
@@ -69,7 +55,7 @@ The script must return an object with one or more of the following properties:
 
 ```javascript
 // If there's no data, return early
-if ((data.series.length > 0) {
+if (data.series.length > 0) {
   return {};
 }
 // Get the first series
