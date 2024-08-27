@@ -1,81 +1,89 @@
-# Plotly Panel
+# Plotly Panel for Grafana
 
 [![Marketplace](https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=marketplace&prefix=v&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22nline-plotlyjs-panel%22%29%5D.version&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins)](https://grafana.com/grafana/plugins/nline-plotlyjs-panel)
 [![Downloads](https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=downloads&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22nline-plotlyjs-panel%22%29%5D.downloads&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins)](https://grafana.com/grafana/plugins/nline-plotlyjs-panel)
 
-Render charts with [Plotly.js](https://plotly.com/javascript/) in Grafana.
+Create advanced, interactive charts in Grafana using [Plotly.js](https://plotly.com/javascript/).
 
-## Features
+## Key Features
 
-- Export plots as images (with specified resolution and type)
-- YAML/JSON support
-- Dark/light theme support
-- Automatic/manual timezone adjustment
-- Apply `Data` configs across traces
-- Expandable code editors
-- Grafana variable substitution
-- Robust error handling
-- And more!
+- Flexible chart creation with full Plotly.js capabilities
+- YAML/JSON support for easy configuration
+- Dark/light theme compatibility
+- Automatic and manual timezone adjustment
+- Cross-trace data application
+- Expandable code editors for customization
+- Grafana variable integration
+- Comprehensive error handling
+- High-resolution image export in multiple formats (SVG, PNG, JPEG, WebP)
 
-See the [changelog](./CHANGELOG.md) for recent updates.
+For a complete list of recent updates, please refer to our [changelog](./CHANGELOG.md).
 
 ## Getting Started
 
-The Plotly Panel is [nLine's](https://nline.io) solution for enhanced control over rendering analyses in Grafana. It provides a component-based approach to constructing a Plotly panel, allowing you to modify static elements independently without interacting with them dynamically through JavaScript.
+The Plotly Panel, developed by [nLine](https://nline.io), offers enhanced control over data visualization in Grafana. It uses a component-based approach, allowing you to modify chart elements independently without complex JavaScript interactions.
 
-### Structure
+### Panel Structure
 
-The **data**, **layout**, and **config** fields are required objects as described in [Plotly's documentation](https://plotly.com/javascript/plotlyjs-function-reference/). They must be structured according to [this schema](https://raw.githubusercontent.com/plotly/plotly.js/master/dist/plot-schema.json). These fields can be parsed and interpreted as YAML or JSON for ease of development. Plotly consumes these fields as `{ data: [traces], layout: layout, config: config }` to produce a graph within the panel.
+The panel configuration consists of five main components:
 
-### Script Transformation
+1. **allData**: Applied across all traces on the Plotly chart
+2. **data**: Defines the chart's data series (traces)
+3. **layout**: Controls the chart's appearance and axes
+4. **config**: Sets chart-wide options
+5. **frames**: (Optional) For animated charts
 
-Data provided by the data source can be transformed via a user-defined script before being delivered to the Plotly chart. The `script` section includes several implicit variables:
+These components follow the [Plotly.js schema](https://raw.githubusercontent.com/plotly/plotly.js/master/dist/plot-schema.json). You can configure them using YAML or JSON in the panel options.
 
-- `data`: Data returned by the datasource query.
-- `variables`: An object containing Grafana's dashboard variables and native variables.
-- `options`: The panel's options, including data, layout, and config objects.
-- `utils`: A set of utility functions and services.
+### Data Transformation
 
-#### Changes post Grafana 10:
+You can transform your data before rendering using a custom script. The script has access to:
 
-> ⚠️ Prior to Grafana 10, the syntax to access the fields from the `data` variable was different. Use `data.series[0].fields[0].values.buffer`. Post 10, these arrays are stored without the `.buffer` property.
+- `data`: Raw data from your Grafana data source
+- `variables`: Grafana dashboard and system variables
+- `options`: Current panel configuration
+- `utils`: Helper functions (e.g., timezone conversion, dayjs for date manipulation)
 
 #### Context Variables
+
+The script has access to several context variables that provide useful information and functionality:
 
 ##### `variables`
 
 This object contains [Grafana's dashboard variables](https://grafana.com/docs/grafana/latest/variables/) and native Grafana variables. Native variables take precedence over dashboard variables with the same name.
 
-Native variables include:
+Key native variables include:
 
-- `__from` and `__to`: Start and end timestamps of the current time range.
-- `__interval` and `__interval_ms`: The interval in string format (e.g., "1h") and in milliseconds.
-- `__timezone`: The current dashboard timezone.
-- `__timeFilter`: A function to generate time range filter expressions.
-- `__dashboard`: The current dashboard object.
+- `__from` and `__to`: Start and end timestamps of the current time range
+- `__interval` and `__interval_ms`: The interval in string format (e.g., "1h") and in milliseconds
+- `__timezone`: The current dashboard timezone
+- `__timeFilter`: A function to generate time range filter expressions
+- `__dashboard`: The current dashboard object
 
 ##### `utils`
 
-The `utils` object provides several utility functions and services:
+The `utils` object provides several utility functions and services to assist with data manipulation and panel interactions:
 
-- `timeZone`: The dashboard timezone.
-- `dayjs`: A [tiny timezone library](https://github.com/iamkun/dayjs).
-- `matchTimezone`: A convenience function to convert timeseries data to the user's timezone.
-- `locationService`: Grafana's location service for URL manipulation.
-- `getTemplateSrv`: Grafana's template service for variable substitution.
+- `timeZone`: The dashboard timezone
+- `dayjs`: A lightweight [date manipulation library](https://github.com/iamkun/dayjs)
+- `matchTimezone`: A convenience function to convert timeseries data to the user's timezone
+- `locationService`: Grafana's location service for URL manipulation
+- `getTemplateSrv`: Grafana's template service for variable substitution
 
-### Return Value
+Example usage of `utils`:
 
-The script must return an object with one or more of the following properties:
+### Processing Script
 
-- `data`
-- `layout`
-- `config`
-- `frames`
+The script must return an object that defines the chart configuration. This object can include one or more of the following properties:
+
+- `data`: An array of trace objects defining the chart's data series
+- `layout`: An object controlling the chart's appearance and axes
+- `config`: An object setting chart-wide options
+- `frames`: An array of frame objects for animated charts
 
 **Note:** The `data` and `frames` properties should be arrays of objects. The "Cross-trace Data" field can be an object, which will apply the parameters to all returned traces in the _Script_ section. Objects are merged with script objects given priority (e.g., `data` from script > `allData` > `data`).
 
-### Example Script
+The script is defined in the "Processing Script" editor.
 
 ```js
 // Example: Basic timeseries plot
@@ -101,39 +109,25 @@ return {
 };
 ```
 
-### Event Handling
+### On-click Event Handling
 
-The panel also supports event handling for click, select, and zoom events. You can define a script to handle these events in the "On-event Trigger" section. The event object is passed as part of the `arguments` to the script.
+The panel supports click, select, and zoom events. You can define custom behavior for these events using the "On-event Trigger" editor.
 
-Example event handling script:
+```javascript
+// Event handling
+const { type: eventType, data: eventData } = event;
+const { timeZone, dayjs, locationService, getTemplateSrv } = utils;
 
-```js
-// Example: Event handling
-const { data, variables, options, utils, event } = arguments;
-try {
-  const { type: eventType, data: eventData } = event;
-  const { timeZone, dayjs, locationService, getTemplateSrv } = utils;
-
-  switch (eventType) {
-    case 'click':
-      console.log('Click event:', eventData.points);
-      break;
-    case 'select':
-      console.log('Selection event:', eventData.range);
-      break;
-    case 'zoom':
-      console.log('Zoom event:', eventData);
-      break;
-    default:
-      console.log('Unhandled event type:', eventType, eventData);
-  }
-
-  console.log('Current time zone:', timeZone);
-  console.log('From time:', dayjs(variables.__from).format());
-  console.log('To time:', dayjs(variables.__to).format());
-
-} catch (error) {
-  console.error('Error in onclick handler:', error);
+switch (eventType) {
+  case 'click':
+    console.log('Click event:', eventData.points);
+    break;
+  case 'select':
+    console.log('Selection event:', eventData.range);
+    break;
+  case 'zoom':
+    console.log('Zoom event:', eventData);
+    break;
 }
 ```
 
