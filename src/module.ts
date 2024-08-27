@@ -51,9 +51,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
           allowCustomValue: true,
           options: [],
           getOptions: async (context: FieldOverrideContext) => {
-            const options = [
-              { value: '', label: 'No correction' },
-            ];
+            const options = [{ value: '', label: 'No correction' }];
             if (context && context.data) {
               for (const frame of context.data) {
                 for (const field of frame.fields) {
@@ -144,14 +142,21 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
       .addCustomEditor({
         id: 'onclick',
         path: 'onclick',
-        name: 'On-click Trigger',
+        name: 'On-event Trigger',
         description: `
-          Script executed when chart is clicked.`,
+          Script executed when chart is clicked, a selection is made, or a zoom action occurs.
+          The 'eventType' variable will be 'click', 'select', or 'zoom'.`,
         editor: PanelOptionCode,
-        category: ['On-click Editor'],
+        category: ['On-event Editor'],
         settings: {
           language: 'javascript',
         },
         defaultValue: inits.onclick,
+      })
+      .addBooleanSwitch({
+        path: 'syncTimeRange',
+        name: 'Sync Time Range',
+        description: 'Synchronize dashboard time range with chart zoom',
+        defaultValue: false,
       });
   });

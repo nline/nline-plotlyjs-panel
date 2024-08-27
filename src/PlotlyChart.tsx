@@ -17,14 +17,14 @@ interface PlotlyChartProps {
   frames?: Plotly.Frame[];
   width: number;
   height: number;
-  onClick?: (data: any) => void;
+  onEvent?: (event: { type: 'click' | 'select' | 'zoom'; data: any }) => void;
   title: string;
 }
 
 const Plot: React.ComponentType<any> = createPlotlyComponent(Plotly);
 
 export const PlotlyChart = forwardRef<any, PlotlyChartProps>(
-  ({ data, layout, config, frames, width, height, onClick, title }, ref) => {
+  ({ data, layout, config, frames, width, height, onEvent, title }, ref) => {
     const latestConfigRef = useRef(config);
 
     useEffect(() => {
@@ -44,7 +44,9 @@ export const PlotlyChart = forwardRef<any, PlotlyChartProps>(
           scale: currentConfig.resScale || 2,
         };
 
-        toImage(plotlyElement, exportConfig).then((data) => saveAs(data, `${title}.${exportConfig.format}`));
+        const sanitizedTitle = title.replace(/\./g, '');
+
+        toImage(plotlyElement, exportConfig).then((data) => saveAs(data, `${sanitizedTitle}.${exportConfig.format}`));
       }
     }, [ref, title]);
 
@@ -74,7 +76,26 @@ export const PlotlyChart = forwardRef<any, PlotlyChartProps>(
         frames={frames}
         useResizeHandler={true}
         style={{ width: `${width}px`, height: `${height}px` }}
-        onClick={onClick}
+        onClick={(clickData: any) =>
+          onEvent?.({
+            type: 'click',
+            data: clickData,
+          })
+        }
+        onSelected={(selectData: any) =>
+          onEvent?.({
+            type: 'select',
+            data: selectData,
+          })
+        }
+        onRelayout={(relayoutData: any) => {
+          if (relayoutData['xaxis.range[0]'] || relayoutData['yaxis.range[0]']) {
+            onEvent?.({
+              type: 'zoom',
+              data: relayoutData,
+            });
+          }
+        }}
       />
     );
   }
