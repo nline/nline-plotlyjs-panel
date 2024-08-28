@@ -2,6 +2,7 @@ import React, { useCallback, forwardRef, useEffect, useRef, useMemo } from 'reac
 import Plotly, { toImage } from 'plotly.js-dist-min';
 import createPlotlyComponent from 'react-plotly.js/factory';
 import { saveAs } from 'file-saver';
+import { ScopedVars } from '@grafana/data';
 
 interface ExtendedConfig extends Partial<Plotly.Config> {
   imgFormat?: 'png' | 'jpeg' | 'webp' | 'svg';
@@ -19,17 +20,23 @@ interface PlotlyChartProps {
   height: number;
   onEvent?: (event: { type: 'click' | 'select' | 'zoom'; data: any }) => void;
   title: string;
+  replaceVariables: (value: string, scopedVars?: ScopedVars, format?: string | Function) => string;
 }
 
 const Plot: React.ComponentType<any> = createPlotlyComponent(Plotly);
 
 export const PlotlyChart = forwardRef<any, PlotlyChartProps>(
-  ({ data, layout, config, frames, width, height, onEvent, title }, ref) => {
+  ({ data, layout, config, frames, width, height, onEvent, title, replaceVariables }, ref) => {
     const latestConfigRef = useRef(config);
 
     useEffect(() => {
       latestConfigRef.current = config;
     }, [config]);
+
+    const processedTitle = useMemo(() => {
+      const replacedTitle = replaceVariables(title);
+      return replacedTitle.replace(/\./g, '');
+    }, [title, replaceVariables]);
 
     const handleImageDownload = useCallback(() => {
       const plotlyElement = (ref as React.RefObject<any>)?.current?.el;
@@ -44,11 +51,9 @@ export const PlotlyChart = forwardRef<any, PlotlyChartProps>(
           scale: currentConfig.resScale || 2,
         };
 
-        const sanitizedTitle = title.replace(/\./g, '');
-
-        toImage(plotlyElement, exportConfig).then((data) => saveAs(data, `${sanitizedTitle}.${exportConfig.format}`));
+        toImage(plotlyElement, exportConfig).then((data) => saveAs(data, `${processedTitle}.${exportConfig.format}`));
       }
-    }, [ref, title]);
+    }, [ref, processedTitle]);
 
     const updatedConfig = useMemo(
       () => ({

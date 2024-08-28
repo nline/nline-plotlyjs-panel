@@ -109,7 +109,12 @@ export const SimplePanel: React.FC<Props> = ({
         }
       }
 
-      if (options.syncTimeRange && event.type === 'zoom' && event.data['xaxis.range[0]'] && event.data['xaxis.range[1]']) {
+      if (
+        options.syncTimeRange &&
+        event.type === 'zoom' &&
+        event.data['xaxis.range[0]'] &&
+        event.data['xaxis.range[1]']
+      ) {
         const from = dateTime(event.data['xaxis.range[0]']);
         const to = dateTime(event.data['xaxis.range[1]']);
         onChangeTimeRange({
@@ -155,6 +160,7 @@ export const SimplePanel: React.FC<Props> = ({
       height={height}
       onEvent={handleEvent}
       title={title}
+      replaceVariables={replaceVariables}
     />
   );
 };
