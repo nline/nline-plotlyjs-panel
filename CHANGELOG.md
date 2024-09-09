@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.0] - 2024-08-27
+
+### Changed
+
+- Add support for click, select, and zoom events
+- Implement dashboard time range synchronization with chart zoom
+- Expand script context with more Grafana variables and utilities
+- Update README with detailed usage instructions and examples
+- Improve error handling and code organization
+
+### Fixed
+
+- Titles substitute vars properly
+
 ## [1.7.0] - 2024-08-07
 
 ### Changed
