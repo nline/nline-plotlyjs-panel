@@ -17,7 +17,7 @@ Create advanced, interactive charts in Grafana using [Plotly.js](https://plotly.
 - Comprehensive error handling
 - High-resolution image export in multiple formats (SVG, PNG, JPEG, WebP)
 
-For a complete list of recent updates, please refer to our [changelog](CHANGELOG.md).
+For a complete list of recent updates, please refer to our [changelog](https://github.com/nline/nline-plotlyjs-panel/blob/main/CHANGELOG.md).
 
 ## Getting Started
 
