@@ -7,9 +7,11 @@ import 'utils';
 
 import { SimplePanel } from './SimplePanel';
 import { PanelOptionCode } from './PanelOptionCode';
+import { plotlyPanelMigrationHandler } from './migrations';
 
 export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel)
   .setDataSupport({ annotations: true })
+  .setMigrationHandler(plotlyPanelMigrationHandler)
   .setPanelOptions((builder) => {
     return builder
       .addSelect({
