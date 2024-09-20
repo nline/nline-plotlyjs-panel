@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Expand script context with more Grafana variables and utilities
 - Update README with detailed usage instructions and examples
 - Improve error handling and code organization
+- Add migration script for compatibility with older versions
 
 ### Fixed
 

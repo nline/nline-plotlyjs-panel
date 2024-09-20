@@ -1,17 +1,18 @@
 import { PanelModel } from '@grafana/data';
 import { SimpleOptions } from './types';
+import semver from 'semver';
 
 export const plotlyPanelMigrationHandler = (panel: PanelModel<SimpleOptions>): Partial<SimpleOptions> => {
   const options: any = panel.options || {};
 
-  // Migrate old script variables to new structure
-  if (options.script) {
-    options.script = migrateScriptVariables(options.script);
-  }
-
-  // Migrate onclick script if it exists
-  if (options.onclick) {
-    options.onclick = migrateScriptVariables(options.onclick);
+  // Migrate scripts only if coming from a version before 1.8.0
+  if (panel.pluginVersion && semver.lt(panel.pluginVersion, '1.8.0')) {
+    if (options.script) {
+      options.script = migrateScriptVariables(options.script);
+    }
+    if (options.onclick) {
+      options.onclick = migrateScriptVariables(options.onclick);
+    }
   }
 
   return options;
