@@ -70,8 +70,6 @@ The `utils` object provides several utility functions and services to assist wit
 - `locationService`: Grafana's location service for URL manipulation
 - `getTemplateSrv`: Grafana's template service for variable substitution
 
-Example usage of `utils`:
-
 ### Processing Script
 
 The script must return an object that defines the chart configuration. This object can include one or more of the following properties:
