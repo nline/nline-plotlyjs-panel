@@ -70,14 +70,15 @@ export const emptyData = (data: any): { isEmpty: boolean; message: string } => {
   }
 
   for (const trace of data) {
-    if (typeof trace === 'object' && trace !== null) {
+    if (typeof trace === 'object' && trace !== null && Object.keys(trace).length > 0) {
+      // Check if any property in the trace has a non-null value
       for (const key in trace) {
-        if (Array.isArray(trace[key]) && trace[key].length > 0) {
+        if (trace[key] !== null && trace[key] !== undefined) {
           return { isEmpty: false, message: 'Data contains non-empty traces' };
         }
       }
     }
   }
 
-  return { isEmpty: true, message: 'No trace found with data' };
+  return { isEmpty: true, message: 'All traces are empty' };
 };
