@@ -71,6 +71,7 @@ export const SimplePanel: React.FC<Props> = ({
         matchTimezone: require('./dataUtils').matchTimezone,
         locationService,
         getTemplateSrv,
+        replaceVariables: (variableName: string) => templateSrv.replace(variableName, data.request?.scopedVars),
       },
     };
   }, [processedData, options, timeZone, data.timeRange, data.request]);
