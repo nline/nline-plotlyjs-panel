@@ -70,6 +70,7 @@ The `utils` object provides several utility functions and services to assist wit
 - `matchTimezone`: A convenience function to convert timeseries data to the user's timezone
 - `locationService`: Grafana's location service for URL manipulation
 - `getTemplateSrv`: Grafana's template service for variable substitution
+- `replaceVariables`: A function to substitute Grafana variables in strings
 
 ### Processing Script
 

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.1] - 2024-09-30
+
+### Changed
+
+- Added proper replaceVariables function to utils (works with scoped variables)
+
+### Fixed
+
+- Bad empty dataframe detection
+
 ## [1.8.0] - 2024-08-27
 
 ### Changed
