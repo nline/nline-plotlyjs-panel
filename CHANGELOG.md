@@ -27,6 +27,12 @@ All notable changes to this project will be documented in this file.
 
 - Titles substitute vars properly
 
+### Note
+
+The contextual variables have been changed:
+- `parameters` (referencing the data, allData, layout, config) has been changed to `options`
+- Helper functions are bundled in a `utils` object where you can reference `timeZone`, `dayjs`, `matchTimezone`, `locationService`, `getTemplateSrv` from the `utils` object like `utils.timeZone` or `utils.locationService`.
+
 ## [1.7.0] - 2024-08-07
 
 ### Changed
