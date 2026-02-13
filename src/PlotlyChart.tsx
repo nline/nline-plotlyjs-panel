@@ -80,7 +80,7 @@ export const PlotlyChart = forwardRef<any, PlotlyChartProps>(
         config={updatedConfig}
         frames={frames}
         useResizeHandler={true}
-        style={{ width: `${width}px`, height: `${height}px` }}
+        style={{ width: '100%', height: '100%', overflow: 'hidden' }}
         onClick={(clickData: any) =>
           onEvent?.({
             type: 'click',
@@ -94,10 +94,10 @@ export const PlotlyChart = forwardRef<any, PlotlyChartProps>(
           })
         }
         onRelayout={(relayoutData: any) => {
-            onEvent?.({
-              type: 'zoom',
-              data: relayoutData,
-            });
+          onEvent?.({
+            type: 'zoom',
+            data: relayoutData,
+          });
         }}
       />
     );
