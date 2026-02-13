@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.2] - 2026-02-12
+
+### Changed
+
+- Updated project configuration for React 19 compatibility
+- Upgraded react-resizable to 3.1.3
+- Fixed table scroll behavior in recent Grafana versions by optimizing container overflow and sizing
+
 ## [1.8.1] - 2024-09-30
 
 ### Changed
@@ -30,6 +38,7 @@ All notable changes to this project will be documented in this file.
 ### Note
 
 The contextual variables have been changed:
+
 - `parameters` (referencing the data, allData, layout, config) has been changed to `options`
 - Helper functions are bundled in a `utils` object where you can reference `timeZone`, `dayjs`, `matchTimezone`, `locationService`, `getTemplateSrv` from the `utils` object like `utils.timeZone` or `utils.locationService`.
 
